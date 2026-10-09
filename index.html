@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Nexora Marketplace | Shop Smarter</title>
+
+  <meta
+    name="description"
+    content="Discover quality products from trusted suppliers at Nexora Marketplace."
+  >
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="header">
+    <nav class="navbar container">
+
+      <a href="#" class="logo">
+        <span class="logo-icon">N</span>
+        <span>Nexora<span class="logo-highlight">.</span></span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#products" class="nav-link">Products</a>
+        <a href="#categories" class="nav-link">Categories</a>
+        <a href="#about" class="nav-link">About Us</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+
+      <a href="#cart" class="cart-link">
+        <span class="cart-icon">🛒</span>
+        <span>Cart</span>
+        <span class="cart-count" id="cart-count">0</span>
+      </a>
+
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+      <div class="container hero-content">
+
+        <div class="hero-text">
+
+          <span class="eyebrow">
+            ✦ YOUR TRUSTED SHOPPING PARTNER
+          </span>
+
+          <h1>
+            Discover Quality.<br>
+            <span>Shop Smarter.</span>
+          </h1>
+
+          <p>
+            Explore quality products from trusted suppliers.
+            Find what you need at prices you'll love.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#products" class="btn btn-primary">
+              Shop Products <span>→</span>
+            </a>
+
+            <a href="#about" class="btn btn-secondary">
+              Learn More
+            </a>
+          </div>
+
+          <div class="hero-features">
+            <div class="feature-item">
+              <span class="feature-icon">✓</span>
+              <span>Quality Products</span>
+            </div>
+
+            <div class="feature-item">
+              <span class="feature-icon">✓</span>
+              <span>Trusted Suppliers</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-glow"></div>
+
+          <div class="hero-product-card">
+            <span class="hero-product-label">SMART SHOPPING</span>
+
+            <div class="hero-product-emoji">🛍️</div>
+
+            <h3>Everything You Need</h3>
+
+            <p>All in one marketplace.</p>
+
+            <div class="hero-product-bottom">
+              <span>Discover more</span>
+              <span>↗</span>
+            </div>
+          </div>
+
+          <div class="floating-card floating-card-top">
+            <span class="floating-icon">✦</span>
+            <div>
+              <strong>Quality First</strong>
+              <small>Products you can trust</small>
+            </div>
+          </div>
+
+          <div class="floating-card floating-card-bottom">
+            <span class="floating-icon">💙</span>
+            <div>
+              <strong>Easy Shopping</strong>
+              <small>Simple and convenient</small>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- TRUST SECTION -->
+    <section class="trust-section">
+      <div class="container trust-grid">
+
+        <div class="trust-item">
+          <span class="trust-icon">📦</span>
+          <div>
+            <h3>Quality Selection</h3>
+            <p>Carefully selected products</p>
+          </div>
+        </div>
+
+        <div class="trust-item">
+          <span class="trust-icon">🤝</span>
+          <div>
+            <h3>Trusted Suppliers</h3>
+            <p>Supplier-based marketplace</p>
+          </div>
+        </div>
+
+        <div class="trust-item">
+          <span class="trust-icon">💳</span>
+          <div>
+            <h3>Easy Ordering</h3>
+            <p>A simple order process</p>
+          </div>
+        </div>
+
+        <div class="trust-item">
+          <span class="trust-icon">🎧</span>
+          <div>
+            <h3>Customer Support</h3>
+            <p>Here to help you</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- CATEGORIES -->
+    <section class="categories section-padding" id="categories">
+      <div class="container">
+
+        <div class="section-heading">
+          <div>
+            <span class="section-label">EXPLORE COLLECTIONS</span>
+            <h2>Shop by Category</h2>
+            <p>Find your favorite products in one place.</p>
+          </div>
+
+          <a href="#products" class="text-link">
+            View Products →
+          </a>
+        </div>
+
+        <div class="category-grid">
+
+          <a href="#products" class="category-card">
+            <div class="category-icon category-blue">🎧</div>
+            <h3>Audio</h3>
+            <p>Headphones & speakers</p>
+            <span class="category-arrow">↗</span>
+          </a>
+
+          <a href="#products" class="category-card">
+            <div class="category-icon category-purple">⌚</div>
+            <h3>Gadgets</h3>
+            <p>Smart everyday tech</p>
+            <span class="category-arrow">↗</span>
+          </a>
+
+          <a href="#products" class="category-card">
+            <div class="category-icon category-orange">🎒</div>
+            <h3>Lifestyle</h3>
+            <p>Everyday essentials</p>
+            <span class="category-arrow">↗</span>
+          </a>
+
+          <a href="#products" class="category-card">
+            <div class="category-icon category-green">🎁</div>
+            <h3>Accessories</h3>
+            <p>More things to love</p>
+            <span class="category-arrow">↗</span>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- PRODUCTS -->
+    <section class="products-section section-padding" id="products">
+      <div class="container">
+
+        <div class="section-heading">
+          <div>
+            <span class="section-label">OUR COLLECTION</span>
+            <h2>Featured Products</h2>
+            <p>Explore some of our popular product picks.</p>
+          </div>
+        </div>
+
+        <div class="product-controls">
+
+          <div class="search-box">
+            <span>⌕</span>
+            <input
+              type="search"
+              id="search-input"
+              placeholder="Search products..."
+              aria-label="Search products"
+            >
+          </div>
+
+          <div class="filter-buttons" id="filter-buttons">
+            <button class="filter-btn active" data-category="All">
+              All Products
+            </button>
+
+            <button class="filter-btn" data-category="Audio">
+              Audio
+            </button>
+
+            <button class="filter-btn" data-category="Gadgets">
+              Gadgets
+            </button>
+
+            <button class="filter-btn" data-category="Lifestyle">
+              Lifestyle
+            </button>
+          </div>
+
+        </div>
+
+        <!-- JavaScript will display products here -->
+        <div class="product-grid" id="product-grid">
+
+          <div class="loading-message">
+            <div class="loading-spinner"></div>
+            <p>Loading products...</p>
+          </div>
+
+        </div>
+
+        <p class="product-note">
+          Product availability and prices are subject to confirmation.
+        </p>
+
+      </div>
+    </section>
+
+
+    <!-- ABOUT -->
+    <section class="about-section section-padding" id="about">
+      <div class="container about-content">
+
+        <div class="about-visual">
+          <div class="about-main-icon">🏬</div>
+          <div class="about-small-icon">✦</div>
+        </div>
+
+        <div class="about-text">
+          <span class="section-label">ABOUT NEXORA</span>
+
+          <h2>A Smarter Way to Shop Online</h2>
+
+          <p>
+            Nexora Marketplace connects customers with suppliers
+            through a simple and convenient shopping experience.
+            Discover products, submit your order, and let our team
+            confirm the details.
+          </p>
+
+          <div class="about-points">
+            <p><span>✓</span> Browse products in one place</p>
+            <p><span>✓</span> Easy product discovery</p>
+            <p><span>✓</span> Orders reviewed by our team</p>
+          </div>
+
+          <a href="#products" class="btn btn-primary">
+            Explore Products →
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- CONTACT / CTA -->
+    <section class="cta-section" id="contact">
+      <div class="container cta-content">
+
+        <div>
+          <span class="section-label cta-label">START EXPLORING</span>
+          <h2>Ready to Find Something Great?</h2>
+          <p>Explore our collection and discover your next favorite product.</p>
+        </div>
+
+        <a href="#products" class="btn btn-light">
+          Browse Products →
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+
+      <div class="footer-brand">
+        <a href="#home" class="logo footer-logo">
+          <span class="logo-icon">N</span>
+          <span>Nexora<span class="logo-highlight">.</span></span>
+        </a>
+
+        <p>
+          A smarter marketplace connecting customers
+          with quality products and trusted suppliers.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h3>Explore</h3>
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#categories">Categories</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Company</h3>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Customer Care</h3>
+        <a href="#contact">Help & Support</a>
+        <a href="#products">Browse Products</a>
+      </div>
+
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© <span id="current-year">2026</span> Nexora Marketplace. All rights reserved.</p>
+      <p>Built for smarter shopping. 💙</p>
+    </div>
+  </footer>
+
+
+  <!-- CART MODAL -->
+  <div class="cart-modal" id="cart-modal" aria-hidden="true">
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <div class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+
+      <div class="cart-header">
+        <h2 id="cart-title">Your Shopping Cart</h2>
+        <button class="cart-close" id="cart-close" aria-label="Close cart">
+          ×
+        </button>
+      </div>
+
+      <div class="cart-items" id="cart-items">
+        <p class="empty-cart">Your cart is empty.</p>
+      </div>
+
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Total</span>
+          <strong id="cart-total">৳0</strong>
+        </div>
+
+        <button class="btn btn-primary checkout-btn" id="checkout-btn">
+          Proceed to Order →
+        </button>
+
+        <p class="cart-small-note">
+          Your order will require confirmation by our team.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ORDER MODAL -->
+  <div class="order-modal" id="order-modal" aria-hidden="true">
+    <div class="order-overlay" id="order-overlay"></div>
+
+    <div class="order-panel" role="dialog" aria-modal="true" aria-labelledby="order-title">
+
+      <div class="order-header">
+        <div>
+          <span class="section-label">ALMOST THERE</span>
+          <h2 id="order-title">Place Your Order</h2>
+        </div>
+
+        <button class="order-close" id="order-close" aria-label="Close order form">
+          ×
+        </button>
+      </div>
+
+      <p class="order-description">
+        Enter your details. Our team will review and confirm your order.
+      </p>
+
+      <form id="order-form">
+
+        <label for="customer-name">Full Name</label>
+        <input
+          type="text"
+          id="customer-name"
+          name="name"
+          placeholder="Enter your full name"
+          required
+        >
+
+        <label for="customer-phone">Phone Number</label>
+        <input
+          type="tel"
+          id="customer-phone"
+          name="phone"
+          placeholder="Enter your phone number"
+          required
+        >
+
+        <label for="customer-address">Delivery Address</label>
+        <textarea
+          id="customer-address"
+          name="address"
+          rows="3"
+          placeholder="Enter your full delivery address"
+          required
+        ></textarea>
+
+        <label for="customer-note">Additional Note (Optional)</label>
+        <textarea
+          id="customer-note"
+          name="note"
+          rows="2"
+          placeholder="Any special instructions?"
+        ></textarea>
+
+        <button type="submit" class="btn btn-primary order-submit">
+          Submit Order →
+        </button>
+
+        <p class="form-message" id="form-message" role="status"></p>
+
+      </form>
+
+    </div>
+  </div>
+
+
+  <!-- NOTIFICATION -->
+  <div class="toast-message" id="toast-message" role="status" aria-live="polite"></div>
+
+</body>
+</html>
