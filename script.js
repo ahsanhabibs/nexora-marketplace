@@ -6,7 +6,7 @@
    Frontend JavaScript
 ========================================= */
 
-const API_URL = "http://localhost:3000";
+const API_URL = "https://nexora-marketplace-x4x7.onrender.com";
 const PRODUCTS_URL = `${API_URL}/api/products`;
 const ORDERS_URL = `${API_URL}/api/orders`;
 
