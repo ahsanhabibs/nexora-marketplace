@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Explore product details, images and trusted suppliers at Nexora Marketplace.">
+<title>Product Details | Nexora Marketplace</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #3563f5;
+  --blue-dark: #244bd0;
+  --navy: #101a35;
+  --bg: #f6f8fd;
+  --text: #35415a;
+  --muted: #7d899f;
+  --border: #e8edf5;
+  --green: #159b69;
+  --red: #d13d48;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, sans-serif;
+}
+
+button, input { font: inherit; }
+a { text-decoration: none; }
+
+[hidden] { display: none !important; }
+
+.product-details-page {
+  width: min(1180px, calc(100% - 36px));
+  margin: 30px auto 70px;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.breadcrumb a, .all-products-link {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.product-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 38px;
+  padding: 30px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 14px 45px #101a3509;
+}
+
+.product-gallery, .product-information { min-width: 0; }
+
+.image-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 410px;
+  padding: 25px;
+  overflow: hidden;
+  border: 1px solid #eaf0ff;
+  border-radius: 20px;
+  background: radial-gradient(circle, #fff 5%, #f1f5ff 100%);
+}
+
+.main-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 350px;
+  object-fit: contain;
+  transition: opacity .2s;
+}
+
+.main-image-fallback,
+.related-image-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 20px;
+  color: var(--muted);
+  background: #edf2ff;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.main-image-fallback {
+  min-height: 250px;
+}
+
+.related-image-fallback {
+  height: 100%;
+  min-height: 120px;
+}
+
+.badge {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  left: 16px;
+  max-width: calc(100% - 32px);
+  padding: 9px 12px;
+  border: 1px solid #dfe7ff;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  overflow-wrap: anywhere;
+}
+
+.gallery-thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 15px;
+}
+
+.gallery-thumbnail {
+  width: 69px;
+  height: 69px;
+  flex: 0 0 69px;
+  padding: 4px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  overflow: hidden;
+  transition: .2s;
+}
+
+.gallery-thumbnail:hover:not(:disabled) {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.gallery-thumbnail.active {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px #3563f51c;
+}
+
+.gallery-thumbnail:disabled {
+  cursor: not-allowed;
+  opacity: .45;
+}
+
+.gallery-thumbnail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 7px;
+}
+
+.image-caption {
+  margin: 12px 0 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.category-tag {
+  display: inline-block;
+  padding: 8px 11px;
+  border-radius: 8px;
+  background: #edf2ff;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.product-title {
+  margin: 16px 0 12px;
+  color: var(--navy);
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.3;
+  letter-spacing: -1px;
+  overflow-wrap: anywhere;
+}
+
+.short-description {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.price-box {
+  margin: 23px 0;
+  padding: 19px;
+  border: 1px solid #e5ecff;
+  border-radius: 15px;
+  background: #f8faff;
+}
+
+.price-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.price {
+  color: var(--blue);
+  font-size: 32px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.stock-line {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 18px 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.stock-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.stock-available { color: var(--green); }
+.stock-low { color: #b87913; }
+.stock-unavailable { color: var(--red); }
+.stock-unavailable .stock-dot { background: var(--red); }
+
+.separator {
+  height: 1px;
+  margin: 22px 0;
+  border: 0;
+  background: var(--border);
+}
+
+.supplier-card {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.supplier-avatar {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--blue), #8aa2ff);
+  color: #fff;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.supplier-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+
+.supplier-name {
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.supplier-location {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.supplier-check {
+  margin-left: auto;
+  color: var(--blue);
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.purchase-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.purchase-row {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  height: 49px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid #dfe5f0;
+  border-radius: 11px;
+}
+
+.quantity-btn {
+  width: 36px;
+  height: 100%;
+  border: 0;
+  background: #fff;
+  color: var(--navy);
+  font-size: 19px;
+  cursor: pointer;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background: #edf2ff;
+  color: var(--blue);
+}
+
+.quantity-btn:disabled {
+  color: #b7bfce;
+  cursor: not-allowed;
+}
+
+.quantity-input {
+  width: 38px;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+  appearance: textfield;
+}
+
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.add-button {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 49px;
+  padding: 12px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 16px #3563f529;
+  transition: .2s;
+}
+
+.add-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--blue-dark);
+}
+
+.add-button:disabled {
+  background: #aab4c7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.cart-message {
+  min-height: 20px;
+  margin: 12px 0 0;
+  color: var(--green);
+  font-size: 11px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.cart-message.error { color: var(--red); }
+
+.view-cart {
+  display: inline-block;
+  margin-top: 5px;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.information-section {
+  margin-top: 26px;
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 21px;
+  background: #fff;
+  box-shadow: 0 8px 30px #101a3505;
+}
+
+.section-heading {
+  margin: 0 0 8px;
+  color: var(--navy);
+  font-size: 22px;
+  letter-spacing: -.5px;
+}
+
+.section-subtitle {
+  margin: 0 0 23px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.description-panel {
+  padding: 23px;
+  border: 1px solid #e7edff;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #f9fbff, #fff);
+}
+
+.description-text {
+  margin: 0;
+  color: #5c6981;
+  font-size: 13px;
+  line-height: 2;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+  margin-top: 17px;
+}
+
+.highlight-card {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: #fff;
+}
+
+.highlight-icon {
+  display: grid;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+  margin-bottom: 12px;
+  border-radius: 11px;
+  background: #edf2ff;
+  color: var(--blue);
+  font-size: 17px;
+}
+
+.highlight-card strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--navy);
+  font-size: 12px;
+}
+
+.highlight-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.specifications-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+  border-top: 1px solid var(--border);
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  min-width: 0;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.spec-label { color: var(--muted); }
+
+.spec-value {
+  color: var(--navy);
+  font-weight: 700;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.delivery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.delivery-card {
+  display: flex;
+  gap: 14px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: #fcfdff;
+}
+
+.delivery-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: #edf2ff;
+  color: var(--blue);
+  font-size: 20px;
+}
+
+.delivery-card h3 {
+  margin: 2px 0 8px;
+  color: var(--navy);
+  font-size: 13px;
+}
+
+.delivery-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.delivery-note {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 11px;
+  background: #f1f5ff;
+  color: #52658c;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.related-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.related-header .section-subtitle { margin-bottom: 0; }
+
+.all-products-link {
+  flex-shrink: 0;
+  font-size: 11px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 17px;
+  min-width: 0;
+}
+
+.related-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: #fff;
+  transition: .2s;
+}
+
+.related-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px #101a3510;
+}
+
+.related-image-wrap {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 175px;
+  padding: 13px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #f8faff, #eef3ff);
+}
+
+.related-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.related-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: 15px;
+}
+
+.related-category {
+  margin: 0 0 8px;
+  color: var(--blue);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.related-name {
+  min-height: 38px;
+  margin: 0 0 11px;
+  color: var(--navy);
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.related-price {
+  margin-bottom: 13px;
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.related-link {
+  display: block;
+  margin-top: auto;
+  padding: 10px 8px;
+  border: 1px solid #dce5ff;
+  border-radius: 9px;
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.related-link:hover {
+  background: var(--blue);
+  color: #fff;
+}
+
+.related-empty {
+  grid-column: 1 / -1;
+  padding: 28px;
+  border: 1px dashed #dce3f1;
+  border-radius: 13px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.loading-message, .error-message {
+  padding: 55px 20px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: #fff;
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.loading-message h2, .error-message h2 {
+  color: var(--navy);
+  font-size: 21px;
+}
+
+.retry-button {
+  margin-top: 12px;
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .product-card { gap: 24px; padding: 22px; }
+  .image-stage { min-height: 330px; }
+  .main-image { height: 280px; }
+  .related-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 650px) {
+  .product-details-page {
+    width: calc(100% - 22px);
+    margin: 20px auto 40px;
+  }
+
+  .product-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .image-stage { min-height: 275px; padding: 15px; }
+  .main-image { height: 245px; }
+  .product-title { font-size: 27px; }
+  .price { font-size: 28px; }
+
+  .information-section {
+    padding: 21px 16px;
+    margin-top: 18px;
+  }
+
+  .section-heading { font-size: 20px; }
+
+  .highlights-grid,
+  .specifications-grid,
+  .delivery-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .related-image-wrap { height: 140px; padding: 9px; }
+  .related-info { padding: 11px; }
+  .related-header { align-items: flex-start; }
+  .purchase-row { gap: 8px; }
+  .quantity-btn { width: 30px; }
+  .quantity-input { width: 30px; }
+  .add-button { padding: 10px 8px; font-size: 11px; }
+
+  .gallery-thumbnail {
+    width: 59px;
+    height: 59px;
+    flex-basis: 59px;
+  }
+}
+
+@media (max-width: 360px) {
+  .related-grid { grid-template-columns: minmax(0, 1fr); }
+  .related-image-wrap { height: 180px; }
+}
+</style>
+</head>
+
+<body>
+<main class="product-details-page">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <a href="products.html">Products</a>
+    <span>›</span>
+    <span id="breadcrumb-product">Product Details</span>
+  </nav>
+
+  <div id="details-content" class="loading-message" aria-live="polite">
+    Loading product details...
+  </div>
+
+  <section class="information-section" id="description-section" hidden>
+    <span class="section-eyebrow">Get to know your product</span>
+    <h2 class="section-heading">Product Description</h2>
+    <p class="section-subtitle">Learn more about the product before placing your order.</p>
+
+    <div class="description-panel">
+      <p class="description-text" id="full-description"></p>
+    </div>
+
+    <div class="highlights-grid">
+      <article class="highlight-card">
+        <span class="highlight-icon">✦</span>
+        <strong>Product Information</strong>
+        <p>Review the available details before purchasing.</p>
+      </article>
+
+      <article class="highlight-card">
+        <span class="highlight-icon">⌂</span>
+        <strong>Marketplace Supplier</strong>
+        <p>Supplier information is shown with the selected product.</p>
+      </article>
+
+      <article class="highlight-card">
+        <span class="highlight-icon">✓</span>
+        <strong>Stock Information</strong>
+        <p>Check the available stock before ordering.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="information-section" id="specifications-section" hidden>
+    <span class="section-eyebrow">Product at a glance</span>
+    <h2 class="section-heading">Specifications</h2>
+    <p class="section-subtitle">Important information about this product and its supplier.</p>
+    <div class="specifications-grid" id="specifications-grid"></div>
+  </section>
+
+  <section class="information-section" id="delivery-section" hidden>
+    <span class="section-eyebrow">Before you order</span>
+    <h2 class="section-heading">Delivery Information</h2>
+    <p class="section-subtitle">Helpful information about delivery and order support.</p>
+
+    <div class="delivery-grid">
+      <article class="delivery-card">
+        <div class="delivery-icon">⌖</div>
+        <div>
+          <h3>Delivery Location</h3>
+          <p id="delivery-location">Supplier location will be shown here.</p>
+        </div>
+      </article>
+
+      <article class="delivery-card">
+        <div class="delivery-icon">↗</div>
+        <div>
+          <h3>Delivery Estimate</h3>
+          <p>Delivery time and shipping charges should be confirmed during checkout or with the supplier.</p>
+        </div>
+      </article>
+
+      <article class="delivery-card">
+        <div class="delivery-icon">↺</div>
+        <div>
+          <h3>Returns &amp; Refunds</h3>
+          <p>Check the marketplace return policy and product eligibility before requesting a return or refund.</p>
+        </div>
+      </article>
+
+      <article class="delivery-card">
+        <div class="delivery-icon">?</div>
+        <div>
+          <h3>Need Help?</h3>
+          <p>Keep your order information available when contacting marketplace support.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="delivery-note">
+      <strong>Important:</strong> Actual delivery availability, shipping cost, delivery date and return eligibility depend on the order, destination and marketplace policy.
+    </div>
+  </section>
+
+  <section class="information-section" id="related-section" hidden>
+    <div class="related-header">
+      <div>
+        <span class="section-eyebrow">Discover more</span>
+        <h2 class="section-heading">You May Also Like</h2>
+        <p class="section-subtitle">Explore more products available on Nexora Marketplace.</p>
+      </div>
+      <a href="products.html" class="all-products-link">View All Products →</a>
+    </div>
+
+    <div class="related-grid" id="related-products-grid">
+      <div class="related-empty">Loading related products...</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+"use strict";
+
+const API_URL = "https://nexora-marketplace-x4x7.onrender.com";
+const productId = new URLSearchParams(window.location.search).get("id");
+const detailsContent = document.getElementById("details-content");
+
+let currentProduct = null;
+let currentProductImages = [];
+
+const DEMO_GALLERIES = {
+  1: [
+    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900",
+    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=900",
+    "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=900",
+    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=900",
+    "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=900"
+  ],
+  2: [
+    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=900",
+    "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=900",
+    "https://images.unsplash.com/photo-1544117519-31a4b719223d?w=900",
+    "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=900",
+    "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=900"
+  ],
+  3: [
+    "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=900",
+    "https://images.unsplash.com/photo-1608539733292-190446b22b83?w=900",
+    "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=900",
+    "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=900",
+    "https://images.unsplash.com/photo-1605648916361-9bc12ad6a569?w=900"
+  ],
+  4: [
+    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900",
+    "https://images.unsplash.com/photo-1622560480654-d96214fdc887?w=900",
+    "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=900",
+    "https://images.unsplash.com/photo-1622260614153-03223fb72052?w=900",
+    "https://images.unsplash.com/photo-1546938576-6e6a64f317cc?w=900"
+  ],
+  5: [
+    "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=900",
+    "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=900",
+    "https://images.unsplash.com/photo-1608156639585-b3a032ef9689?w=900",
+    "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=900",
+    "https://images.unsplash.com/photo-1631867675167-90a456a90863?w=900"
+  ],
+  6: [
+    "https://images.unsplash.com/photo-1592840496694-26d035b52b48?w=900",
+    "https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=900",
+    "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=900",
+    "https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=900",
+    "https://images.unsplash.com/photo-1605901309584-818e25960a8f?w=900"
+  ]
+};
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
+}
+
+function formatPrice(price) {
+  const amount = Number(price);
+
+  if (price === null || price === undefined || price === "" ||
+      !Number.isFinite(amount) || amount < 0) {
+    return "Price unavailable";
+  }
+
+  return "৳" + amount.toLocaleString("en-BD");
+}
+
+function getStock(product) {
+  const value = Number(product.stock ?? product.quantity ?? 0);
+  return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+}
+
+function getProductImage(product) {
+  const image = String(product.image || "").trim();
+  return /^https?:\/\//i.test(image) ? image : "";
+}
+
+function getProductImages(product) {
+  const supplied = Array.isArray(product.images) ? product.images : [];
+  const demo = DEMO_GALLERIES[Number(product.id)] || [];
+
+  const candidates = [
+    ...supplied,
+    ...demo,
+    product.image
+  ];
+
+  return [...new Set(
+    candidates
+      .filter(image => typeof image === "string")
+      .map(image => image.trim())
+      .filter(image => /^https?:\/\//i.test(image))
+  )].slice(0, 5);
+}
+
+function getStockDisplay(stock) {
+  if (stock <= 0) {
+    return { label: "Out of stock", className: "stock-unavailable" };
+  }
+
+  if (stock <= 5) {
+    return { label: "Only " + stock + " left in stock", className: "stock-low" };
+  }
+
+  return {
+    label: "In stock · " + stock + " available",
+    className: "stock-available"
+  };
+}
+
+function showMessage(message, isError = false) {
+  const element = document.getElementById("cart-message");
+  if (!element) return;
+
+  element.classList.toggle("error", isError);
+  element.textContent = message;
+}
+
+function attachMainImageFallback(image) {
+  if (image.dataset.fallbackAttached === "true") return;
+  image.dataset.fallbackAttached = "true";
+
+  image.addEventListener("error", function () {
+    this.style.display = "none";
+
+    const stage = this.closest(".image-stage");
+    if (!stage || stage.querySelector(".main-image-fallback")) return;
+
+    const fallback = document.createElement("div");
+    fallback.className = "main-image-fallback";
+    fallback.textContent = "This image could not be loaded. Try another thumbnail.";
+    stage.appendChild(fallback);
+  });
+}
+
+function selectGalleryImage(index) {
+  const url = currentProductImages[index];
+  if (!url) return;
+
+  const stage = document.querySelector(".image-stage");
+  if (!stage) return;
+
+  let mainImage = document.getElementById("main-product-image");
+
+  if (!mainImage) {
+    mainImage = document.createElement("img");
+    mainImage.className = "main-image";
+    mainImage.id = "main-product-image";
+    stage.appendChild(mainImage);
+    attachMainImageFallback(mainImage);
+  }
+
+  const fallback = stage.querySelector(".main-image-fallback");
+  if (fallback) fallback.remove();
+
+  mainImage.style.display = "block";
+  mainImage.alt = (currentProduct?.name || "Product") + " image " + (index + 1);
+  mainImage.src = url;
+
+  document.querySelectorAll(".gallery-thumbnail").forEach((button, i) => {
+    const active = i === index;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
+
+function renderProduct(product) {
+  currentProduct = product;
+  currentProductImages = getProductImages(product);
+
+  const name = escapeHTML(product.name || "Unnamed Product");
+  const category = escapeHTML(product.category || "General");
+  const description = escapeHTML(
+    product.description || "Product description is not available yet."
+  );
+
+  const shopName = escapeHTML(
+    product.shopName || product.shop_name || "Supplier information unavailable"
+  );
+
+  const shopLocation = escapeHTML(
+    product.shopLocation || product.shop_location || "Location not specified"
+  );
+
+  const badge = escapeHTML(product.badge || "NEXORA PICK");
+  const stock = getStock(product);
+  const stockDisplay = getStockDisplay(stock);
+  const firstImage = currentProductImages[0] || "";
+
+  document.title = (product.name || "Product Details") + " | Nexora Marketplace";
+  document.getElementById("breadcrumb-product").textContent =
+    product.name || "Product Details";
+
+  const mainImageHTML = firstImage
+    ? `<img class="main-image" id="main-product-image"
+         src="${escapeHTML(firstImage)}"
+         alt="${name}"
+         fetchpriority="high">`
+    : `<div class="main-image-fallback">Product image unavailable</div>`;
+
+  const thumbnailsHTML = currentProductImages.length > 1
+    ? `<div class="gallery-thumbnails" aria-label="Product images">
+        ${currentProductImages.map((url, index) => `
+          <button class="gallery-thumbnail ${index === 0 ? "active" : ""}"
+            type="button"
+            data-gallery-index="${index}"
+            aria-label="Show product image ${index + 1}"
+            aria-pressed="${index === 0 ? "true" : "false"}">
+            <img src="${escapeHTML(url)}"
+              alt="${name} view ${index + 1}"
+              loading="lazy">
+          </button>
+        `).join("")}
+      </div>
+      <p class="image-caption">Click a thumbnail to see another product image.</p>`
+    : `<p class="image-caption">Product image</p>`;
+
+  detailsContent.className = "product-card";
+
+  detailsContent.innerHTML = `
+    <section class="product-gallery">
+      <div class="image-stage">
+        <span class="badge">✦ ${badge}</span>
+        ${mainImageHTML}
+      </div>
+      ${thumbnailsHTML}
+    </section>
+
+    <section class="product-information">
+      <span class="category-tag">${category}</span>
+      <h1 class="product-title">${name}</h1>
+      <p class="short-description">${description}</p>
+
+      <div class="price-box">
+        <span class="price-label">Our Price</span>
+        <div class="price">${formatPrice(product.price)}</div>
+      </div>
+
+      <div class="stock-line ${stockDisplay.className}">
+        <span class="stock-dot"></span>
+        <span>${escapeHTML(stockDisplay.label)}</span>
+      </div>
+
+      <hr class="separator">
+
+      <div class="supplier-card">
+        <div class="supplier-avatar">N</div>
+        <div>
+          <span class="supplier-label">Sold by</span>
+          <div class="supplier-name">${shopName}</div>
+          <span class="supplier-location">⌖ ${shopLocation}</span>
+        </div>
+        <span class="supplier-check" title="Marketplace supplier">✓</span>
+      </div>
+
+      <hr class="separator">
+
+      <label class="purchase-label" for="product-quantity">Select Quantity</label>
+
+      <div class="purchase-row">
+        <div class="quantity-control">
+          <button class="quantity-btn" id="quantity-minus"
+            type="button" aria-label="Decrease quantity"
+            ${stock <= 0 ? "disabled" : ""}>−</button>
+
+          <input class="quantity-input" id="product-quantity"
+            type="number"
+            value="${stock > 0 ? 1 : 0}"
+            min="${stock > 0 ? 1 : 0}"
+            max="${stock}"
+            inputmode="numeric"
+            aria-label="Product quantity"
+            ${stock <= 0 ? "disabled" : ""}>
+
+          <button class="quantity-btn" id="quantity-plus"
+            type="button" aria-label="Increase quantity"
+            ${stock <= 0 ? "disabled" : ""}>+</button>
+        </div>
+
+        <button class="add-button" id="details-add-to-cart"
+          type="button" ${stock <= 0 ? "disabled" : ""}>
+          🛒 ${stock <= 0 ? "Out of Stock" : "Add to Cart"}
+        </button>
+      </div>
+
+      <p class="cart-message" id="cart-message" role="status" aria-live="polite"></p>
+      <a href="cart.html" class="view-cart" id="view-cart-link" hidden>
+        View Shopping Cart →
+      </a>
+    </section>
+  `;
+
+  const mainImage = document.getElementById("main-product-image");
+  if (mainImage) attachMainImageFallback(mainImage);
+
+  document.querySelectorAll(".gallery-thumbnail").forEach(button => {
+    button.addEventListener("click", () => {
+      selectGalleryImage(Number(button.dataset.galleryIndex));
+    });
+
+    const thumbnailImage = button.querySelector("img");
+
+    thumbnailImage.addEventListener("error", function () {
+      button.disabled = true;
+      this.alt = "Demo image unavailable";
+
+      if (button.classList.contains("active")) {
+        button.classList.remove("active");
+        button.setAttribute("aria-pressed", "false");
+      }
+    });
+  });
+
+  renderInformationSections(product);
+  setupQuantityControls(stock);
+  setupAddToCart(product, stock);
+  loadRelatedProducts(product);
+}
+
+function renderInformationSections(product) {
+  document.getElementById("full-description").textContent =
+    product.description || "Product description is not available yet.";
+
+  document.getElementById("delivery-location").textContent =
+    product.shopLocation || product.shop_location || "Delivery location is not specified.";
+
+  const specifications = [
+    ["Product Name", product.name || "Not specified"],
+    ["Category", product.category || "Not specified"],
+    ["Supplier", product.shopName || product.shop_name || "Not specified"],
+    ["Supplier Location", product.shopLocation || product.shop_location || "Not specified"],
+    ["Price", formatPrice(product.price)],
+    ["Stock Available", getStock(product) + " units"],
+    ["Product ID", String(product.id ?? "Not specified")]
+  ];
+
+  document.getElementById("specifications-grid").innerHTML =
+    specifications.map(item => `
+      <div class="spec-row">
+        <span class="spec-label">${escapeHTML(item[0])}</span>
+        <span class="spec-value">${escapeHTML(item[1])}</span>
+      </div>
+    `).join("");
+
+  document.getElementById("description-section").hidden = false;
+  document.getElementById("specifications-section").hidden = false;
+  document.getElementById("delivery-section").hidden = false;
+  document.getElementById("related-section").hidden = false;
+}
+
+function setupQuantityControls(stock) {
+  const input = document.getElementById("product-quantity");
+  const minus = document.getElementById("quantity-minus");
+  const plus = document.getElementById("quantity-plus");
+
+  function getQuantity() {
+    if (stock <= 0) return 0;
+
+    const value = Number.parseInt(input.value, 10);
+
+    if (!Number.isFinite(value)) return 1;
+
+    return Math.min(stock, Math.max(1, value));
+  }
+
+  function updateQuantity() {
+    if (stock <= 0) {
+      input.value = 0;
+      minus.disabled = true;
+      plus.disabled = true;
+      return;
+    }
+
+    input.value = getQuantity();
+    minus.disabled = getQuantity() <= 1;
+    plus.disabled = getQuantity() >= stock;
+  }
+
+  minus.addEventListener("click", () => {
+    if (stock <= 0) return;
+    input.value = getQuantity() - 1;
+    updateQuantity();
+  });
+
+  plus.addEventListener("click", () => {
+    if (stock <= 0) return;
+    input.value = getQuantity() + 1;
+    updateQuantity();
+  });
+
+  input.addEventListener("change", updateQuantity);
+
+  input.addEventListener("input", () => {
+    if (stock <= 0) {
+      input.value = 0;
+      return;
+    }
+
+    const value = Number.parseInt(input.value, 10);
+
+    if (Number.isFinite(value) && value > stock) {
+      input.value = stock;
+    }
+  });
+
+  updateQuantity();
+}
+
+function setupAddToCart(product, stock) {
+  const button = document.getElementById("details-add-to-cart");
+
+  button.addEventListener("click", () => {
+    if (stock <= 0) {
+      showMessage("এই পণ্যটি বর্তমানে স্টকে নেই।", true);
+      return;
+    }
+
+    const quantity = Number.parseInt(
+      document.getElementById("product-quantity").value,
+      10
+    );
+
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > stock) {
+      showMessage("সঠিক Quantity নির্বাচন করো।", true);
+      return;
+    }
+
+    let cart;
+
+    try {
+      cart = JSON.parse(localStorage.getItem("nexoraCart") || "[]");
+    } catch {
+      showMessage("Cart-এর তথ্য পড়া যায়নি।", true);
+      return;
+    }
+
+    if (!Array.isArray(cart)) cart = [];
+
+    const existing = cart.find(
+      item => String(item.id) === String(product.id)
+    );
+
+    const oldQuantity = existing
+      ? Math.max(0, Number(existing.quantity) || 0)
+      : 0;
+
+    if (oldQuantity + quantity > stock) {
+      showMessage(
+        "তোমার Cart-এ এই পণ্য আছে। স্টকের চেয়ে বেশি যোগ করা যাবে না।",
+        true
+      );
+      return;
+    }
+
+    const numericPrice = Number(product.price);
+
+    if (!Number.isFinite(numericPrice) || numericPrice < 0) {
+      showMessage("এই পণ্যের দাম সঠিক নয়।", true);
+      return;
+    }
+
+    const cartItem = {
+      id: product.id,
+      name: product.name || "Unnamed Product",
+      price: numericPrice,
+      image: getProductImage(product) || currentProductImages[0] || "",
+      icon: product.icon || "🛍️"
+    };
+
+    if (existing) {
+      Object.assign(existing, cartItem, {
+        quantity: oldQuantity + quantity
+      });
+    } else {
+      cart.push({
+        ...cartItem,
+        quantity
+      });
+    }
+
+    try {
+      localStorage.setItem("nexoraCart", JSON.stringify(cart));
+    } catch {
+      showMessage("Cart সেভ করা যায়নি। Browser storage পরীক্ষা করো।", true);
+      return;
+    }
+
+    showMessage(quantity + " × " + (product.name || "Product") + " Cart-এ যোগ হয়েছে!");
+
+    document.getElementById("view-cart-link").hidden = false;
+    button.textContent = "✓ Added to Cart";
+
+    setTimeout(() => {
+      if (document.body.contains(button) && stock > 0) {
+        button.textContent = "🛒 Add to Cart";
+      }
+    }, 1400);
+  });
+}
+
+async function loadRelatedProducts(product) {
+  const grid = document.getElementById("related-products-grid");
+
+  try {
+    const response = await fetch(API_URL + "/api/products");
+
+    if (!response.ok) {
+      throw new Error("Could not load products");
+    }
+
+    const data = await response.json();
+
+    const products = Array.isArray(data)
+      ? data
+      : Array.isArray(data.products)
+        ? data.products
+        : Array.isArray(data.data)
+          ? data.data
+          : [];
+
+    const others = products.filter(
+      item => String(item.id) !== String(product.id)
+    );
+
+    const sameCategory = others.filter(
+      item => String(item.category || "").toLowerCase() ===
+        String(product.category || "").toLowerCase()
+    );
+
+    const differentCategory = others.filter(
+      item => String(item.category || "").toLowerCase() !==
+        String(product.category || "").toLowerCase()
+    );
+
+    const related = [...sameCategory, ...differentCategory].slice(0, 4);
+
+    if (!related.length) {
+      grid.innerHTML = `
+        <div class="related-empty">
+          No other products are available right now.<br>
+          <a class="all-products-link" href="products.html">Browse all products →</a>
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = related.map(item => {
+      const name = escapeHTML(item.name || "Unnamed Product");
+      const category = escapeHTML(item.category || "General");
+      const image = getProductImage(item);
+      const detailsURL =
+        "product-details.html?id=" + encodeURIComponent(String(item.id));
+
+      return `
+        <article class="related-card">
+          <a href="${detailsURL}" aria-label="View ${name}">
+            <div class="related-image-wrap">
+              ${
+                image
+                  ? `<img class="related-image"
+                       src="${escapeHTML(image)}"
+                       alt="${name}"
+                       loading="lazy">`
+                  : `<div class="related-image-fallback">Image unavailable</div>`
+              }
+            </div>
+          </a>
+
+          <div class="related-info">
+            <span class="related-category">${category}</span>
+            <h3 class="related-name">${name}</h3>
+            <div class="related-price">${formatPrice(item.price)}</div>
+            <a class="related-link" href="${detailsURL}">View Details →</a>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    grid.querySelectorAll(".related-image").forEach(img => {
+      img.addEventListener("error", function () {
+        const fallback = document.createElement("div");
+        fallback.className = "related-image-fallback";
+        fallback.textContent = "Image unavailable";
+        this.replaceWith(fallback);
+      }, { once: true });
+    });
+
+  } catch (error) {
+    console.error("Related products error:", error);
+
+    grid.innerHTML = `
+      <div class="related-empty">
+        Related products could not be loaded right now.<br>
+        <a class="all-products-link" href="products.html">Browse all products →</a>
+      </div>
+    `;
+  }
+}
+
+async function loadProductDetails() {
+  if (!productId) {
+    detailsContent.className = "error-message";
+    detailsContent.innerHTML = `
+      <h2>Product ID পাওয়া যায়নি</h2>
+      Products পেজ থেকে একটি পণ্য নির্বাচন করো।<br>
+      <a class="all-products-link" href="products.html">Browse Products →</a>
+    `;
+    return;
+  }
+
+  detailsContent.className = "loading-message";
+  detailsContent.textContent = "Loading product details...";
+
+  try {
+    const response = await fetch(
+      API_URL + "/api/products/" + encodeURIComponent(productId)
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success || !data.product) {
+      throw new Error(data.message || "Product not found");
+    }
+
+    renderProduct(data.product);
+
+  } catch (error) {
+    console.error("Product details error:", error);
+
+    detailsContent.className = "error-message";
+    detailsContent.innerHTML = `
+      <h2>Product details লোড করা যায়নি</h2>
+      Backend connection অথবা product information পরীক্ষা করে আবার চেষ্টা করো।<br>
+      <button class="retry-button" id="retry-product" type="button">Try Again</button>
+      <br>
+      <a class="all-products-link" href="products.html">← Back to Products</a>
+    `;
+
+    document.getElementById("retry-product").addEventListener(
+      "click",
+      loadProductDetails
+    );
+  }
+}
+
+loadProductDetails();
+</script>
+</body>
+</html>

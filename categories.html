@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories | Nexora Marketplace</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .categories-page {
+      max-width: 1200px;
+      margin: auto;
+      padding: 35px 22px 70px;
+      font-family: Inter, sans-serif;
+      color: #101a35;
+    }
+
+    .categories-hero {
+      padding: 42px;
+      border-radius: 22px;
+      background: linear-gradient(120deg, #101a35, #244bd0, #3563f5);
+      color: white;
+      margin-bottom: 35px;
+    }
+
+    .categories-hero span {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      opacity: .8;
+    }
+
+    .categories-hero h1 {
+      margin: 12px 0;
+      font-size: clamp(30px, 4vw, 44px);
+    }
+
+    .categories-hero p {
+      max-width: 570px;
+      line-height: 1.8;
+      color: #e5ebff;
+    }
+
+    .categories-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .categories-heading h2 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    .categories-heading p {
+      color: #68738a;
+      font-size: 14px;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .category-card {
+      display: block;
+      padding: 25px 20px;
+      text-align: center;
+      background: white;
+      border: 1px solid #e9edf6;
+      border-radius: 18px;
+      color: #101a35;
+      text-decoration: none;
+      transition: .2s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px);
+      border-color: #cbd8ff;
+      box-shadow: 0 12px 30px #101a3510;
+    }
+
+    .category-icon {
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 18px;
+      border-radius: 20px;
+      background: #f0f4ff;
+      font-size: 34px;
+    }
+
+    .category-card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    .category-card p {
+      margin: 0;
+      color: #68738a;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .category-count {
+      display: inline-block;
+      margin-top: 17px;
+      padding: 7px 12px;
+      background: #f0f4ff;
+      color: #3563f5;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .categories-state {
+      grid-column: 1 / -1;
+      padding: 40px 20px;
+      text-align: center;
+      background: #f8faff;
+      border-radius: 16px;
+      color: #68738a;
+      line-height: 1.8;
+    }
+
+    .categories-state h2 {
+      color: #101a35;
+    }
+
+    .categories-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #3563f5;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .categories-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 650px) {
+      .categories-page {
+        padding: 22px 15px 45px;
+      }
+
+      .categories-hero {
+        padding: 28px 22px;
+      }
+
+      .categories-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .category-card {
+        padding: 22px 12px;
+      }
+
+      .category-icon {
+        width: 62px;
+        height: 62px;
+        font-size: 29px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="categories-page">
+    <a href="index.html" class="categories-back">← Back to Home</a>
+
+    <section class="categories-hero">
+      <span>EXPLORE NEXORA</span>
+      <h1>Shop by Category</h1>
+      <p>Find the products you need with our organised categories. Explore quality items from Nexora's suppliers.</p>
+    </section>
+
+    <section>
+      <div class="categories-heading">
+        <div>
+          <h2>Explore Categories</h2>
+          <p id="category-summary">Loading categories...</p>
+        </div>
+      </div>
+
+      <div id="categories-grid" class="categories-grid">
+        <div class="categories-state">Loading categories...</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API_URL = "https://nexora-marketplace-x4x7.onrender.com";
+    const grid = document.getElementById("categories-grid");
+    const summary = document.getElementById("category-summary");
+
+    const categoryInfo = {
+      audio: {
+        icon: "🎧",
+        description: "Headphones, speakers and audio accessories."
+      },
+      gadgets: {
+        icon: "⌚",
+        description: "Smart devices and everyday technology."
+      },
+      lifestyle: {
+        icon: "🎒",
+        description: "Useful products for work, travel and daily life."
+      },
+      accessories: {
+        icon: "👜",
+        description: "Accessories to complement your everyday essentials."
+      }
+    };
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    async function loadCategories() {
+      try {
+        const response = await fetch(`${API_URL}/api/products`);
+
+        if (!response.ok) {
+          throw new Error("Unable to load products.");
+        }
+
+        const data = await response.json();
+
+        if (!data.success || !Array.isArray(data.products)) {
+          throw new Error("Invalid product data.");
+        }
+
+        const products = data.products;
+        const counts = {};
+
+        products.forEach(product => {
+          const category = String(product.category || "General").trim();
+          counts[category] = (counts[category] || 0) + 1;
+        });
+
+        const categories = Object.keys(counts);
+        summary.textContent =
+          `${categories.length} categories · ${products.length} products`;
+
+        if (!categories.length) {
+          grid.innerHTML = `
+            <div class="categories-state">
+              <h2>No categories yet</h2>
+              <p>Products will appear here when they are available.</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = categories.map(category => {
+          const key = category.toLowerCase();
+          const info = categoryInfo[key] || {
+            icon: "🛍️",
+            description: `Explore products in ${category}.`
+          };
+
+          return `
+            <a class="category-card"
+              href="products.html?category=${encodeURIComponent(category)}">
+              <div class="category-icon">${info.icon}</div>
+              <h3>${escapeHTML(category)}</h3>
+              <p>${escapeHTML(info.description)}</p>
+              <span class="category-count">
+                ${counts[category]} ${counts[category] === 1 ? "Product" : "Products"}
+              </span>
+            </a>
+          `;
+        }).join("");
+
+      } catch (error) {
+        console.error("Category loading error:", error);
+        summary.textContent = "Categories could not be loaded.";
+
+        grid.innerHTML = `
+          <div class="categories-state">
+            <h2>Unable to load categories</h2>
+            <p>Please check your connection and try again.</p>
+            <button id="retry-categories" type="button"
+              style="padding:12px 18px;border:0;border-radius:10px;background:#3563f5;color:white;font-weight:700;cursor:pointer">
+              Try Again
+            </button>
+          </div>
+        `;
+
+        document.getElementById("retry-categories")
+          .addEventListener("click", loadCategories);
+      }
+    }
+
+    loadCategories();
+  </script>
+</body>
+</html>

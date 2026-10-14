@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Product Management | Nexora Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #3563f5;
+      --primary-dark: #244bd0;
+      --navy: #101a35;
+      --background: #f5f7fc;
+      --white: #ffffff;
+      --text: #202b45;
+      --muted: #7c879e;
+      --border: #e8edf5;
+      --green: #159b69;
+      --orange: #e58a18;
+      --red: #dc4545;
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--background);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      padding: 27px 17px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 10px;
+      margin-bottom: 42px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: var(--primary);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 800;
+      box-shadow: 0 6px 15px #3563f533;
+    }
+
+    .brand-name {
+      font-size: 23px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -1px;
+    }
+
+    .brand-name span {
+      color: var(--primary);
+    }
+
+    .sidebar-label {
+      color: #9ba5b7;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 0 12px;
+      margin-bottom: 13px;
+    }
+
+    .nav-links {
+      display: grid;
+      gap: 7px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      border-radius: 11px;
+      color: #69758c;
+      font-size: 13px;
+      font-weight: 600;
+      transition: .2s;
+    }
+
+    .nav-link:hover {
+      background: #f2f5ff;
+      color: var(--primary);
+    }
+
+    .nav-link.active {
+      background: #edf2ff;
+      color: var(--primary);
+    }
+
+    .nav-icon {
+      width: 22px;
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 20px 12px 0;
+    }
+
+    .admin-card {
+      padding: 15px;
+      background: #f5f7fc;
+      border-radius: 13px;
+    }
+
+    .admin-card strong {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .admin-card small {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* Main */
+    .main {
+      min-width: 0;
+      flex: 1;
+      padding: 29px 34px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 9px;
+    }
+
+    .breadcrumb span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    h1 {
+      color: var(--navy);
+      font-size: clamp(23px, 3vw, 30px);
+      letter-spacing: -.8px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .refresh-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 17px;
+      background: var(--white);
+      color: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .refresh-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .refresh-btn:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 21px;
+      min-width: 0;
+      box-shadow: 0 4px 16px #172b4d05;
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .stat-icon {
+      width: 39px;
+      height: 39px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+      flex-shrink: 0;
+    }
+
+    .icon-blue {
+      background: #edf2ff;
+      color: var(--primary);
+    }
+
+    .icon-green {
+      background: #e8f8f0;
+      color: var(--green);
+    }
+
+    .icon-orange {
+      background: #fff4e4;
+      color: var(--orange);
+    }
+
+    .icon-red {
+      background: #fff0f0;
+      color: var(--red);
+    }
+
+    .stat-value {
+      color: var(--navy);
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .stat-note {
+      color: #9aa4b5;
+      font-size: 10px;
+      margin-top: 7px;
+    }
+
+    /* Product panel */
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 16px #172b4d05;
+    }
+
+    .panel-header {
+      padding: 23px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-header h2 {
+      font-size: 17px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .panel-header p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .count-badge {
+      white-space: nowrap;
+      padding: 8px 11px;
+      border-radius: 9px;
+      background: #edf2ff;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(170px, 230px);
+      gap: 12px;
+      padding: 19px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #98a2b5;
+      pointer-events: none;
+    }
+
+    .search-input,
+    .category-select {
+      width: 100%;
+      min-width: 0;
+      height: 43px;
+      padding: 0 13px;
+      outline: none;
+      border: 1px solid #e5eaf3;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .search-input {
+      padding-left: 39px;
+    }
+
+    .search-input:focus,
+    .category-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px #3563f512;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 940px;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    thead {
+      background: #fafbfe;
+    }
+
+    th {
+      color: #8994a9;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      padding: 15px 17px;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 16px 17px;
+      border-bottom: 1px solid #edf0f6;
+      font-size: 12px;
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #fbfcff;
+    }
+
+    .product-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+    }
+
+    .product-image {
+      width: 55px;
+      height: 55px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #f7f9fd;
+      color: #aab4c6;
+      font-size: 10px;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 4px;
+    }
+
+    .product-name {
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      max-width: 190px;
+      overflow-wrap: anywhere;
+    }
+
+    .product-id {
+      color: #9aa4b5;
+      font-size: 10px;
+    }
+
+    .supplier-name {
+      font-weight: 600;
+      color: #46536c;
+      line-height: 1.6;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 7px;
+      background: #f0f3fa;
+      color: #68758d;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .price {
+      color: var(--navy);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .stock {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .stock-good {
+      color: var(--green);
+    }
+
+    .stock-low {
+      color: var(--orange);
+    }
+
+    .stock-out {
+      color: var(--red);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 7px;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-available {
+      color: var(--green);
+      background: #e8f8f0;
+    }
+
+    .status-low {
+      color: var(--orange);
+      background: #fff4e4;
+    }
+
+    .status-out {
+      color: var(--red);
+      background: #fff0f0;
+    }
+
+    .view-link {
+      display: inline-block;
+      padding: 8px 10px;
+      border: 1px solid #dfe7ff;
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .view-link:hover {
+      background: #edf2ff;
+    }
+
+    .message-row {
+      padding: 45px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .message-row strong {
+      display: block;
+      color: var(--navy);
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+
+    .panel-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 17px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .footer-note {
+      margin-top: 19px;
+      color: #8a95a8;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 1100px) {
+      .sidebar {
+        width: 215px;
+      }
+
+      .main {
+        padding: 25px 22px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 15px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .brand {
+        margin-bottom: 17px;
+      }
+
+      .sidebar-label,
+      .sidebar-bottom {
+        display: none;
+      }
+
+      .nav-links {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 3px;
+      }
+
+      .nav-link {
+        flex-shrink: 0;
+        padding: 10px 12px;
+        font-size: 11px;
+      }
+
+      .nav-icon {
+        font-size: 15px;
+      }
+
+      .main {
+        padding: 23px 14px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .refresh-btn {
+        padding: 10px 12px;
+        font-size: 11px;
+      }
+
+      .stats {
+        gap: 11px;
+      }
+
+      .stat-card {
+        padding: 15px;
+      }
+
+      .stat-value {
+        font-size: 25px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+      }
+
+      .stat-icon {
+        width: 32px;
+        height: 32px;
+      }
+
+      .panel-header,
+      .filters {
+        padding: 17px;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .panel-footer {
+        padding: 15px 17px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .topbar {
+        flex-direction: column;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat-top {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">N</div>
+        <div class="brand-name">Nexora<span>.</span></div>
+      </a>
+
+      <div class="sidebar-label">ADMINISTRATION</div>
+
+      <nav class="nav-links">
+        <a href="admin.html" class="nav-link">
+          <span class="nav-icon">▦</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="admin-products.html" class="nav-link active">
+          <span class="nav-icon">▣</span>
+          <span>Products</span>
+        </a>
+
+        <a href="admin-orders.html" class="nav-link">
+          <span class="nav-icon">▤</span>
+          <span>Orders</span>
+        </a>
+
+        <a href="products.html" class="nav-link">
+          <span class="nav-icon">⌕</span>
+          <span>View Store</span>
+        </a>
+
+        <a href="index.html" class="nav-link">
+          <span class="nav-icon">⌂</span>
+          <span>Home Page</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="admin-card">
+          <strong>Nexora Administration</strong>
+          <small>Product inventory overview</small>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+
+      <header class="topbar">
+        <div>
+          <div class="breadcrumb">
+            Admin <span>/ Product Management</span>
+          </div>
+          <h1>Product Management</h1>
+          <p class="subtitle">
+            Monitor marketplace products, supplier stores and stock levels.
+          </p>
+        </div>
+
+        <button class="refresh-btn" id="refreshBtn" type="button">
+          <span>↻</span> Refresh Products
+        </button>
+      </header>
+
+      <!-- Statistics -->
+      <section class="stats">
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Total Products</span>
+            <span class="stat-icon icon-blue">▣</span>
+          </div>
+          <div class="stat-value" id="totalProducts">—</div>
+          <div class="stat-note">Products returned by the API</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Available Stock</span>
+            <span class="stat-icon icon-green">✓</span>
+          </div>
+          <div class="stat-value" id="availableStock">—</div>
+          <div class="stat-note">Units currently in stock</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Low Stock Items</span>
+            <span class="stat-icon icon-orange">!</span>
+          </div>
+          <div class="stat-value" id="lowStock">—</div>
+          <div class="stat-note">Products with 1–5 units</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">Out of Stock</span>
+            <span class="stat-icon icon-red">×</span>
+          </div>
+          <div class="stat-value" id="outOfStock">—</div>
+          <div class="stat-note">Products with zero units</div>
+        </div>
+      </section>
+
+      <!-- Product List -->
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>All Marketplace Products</h2>
+            <p>Review products supplied by stores connected to Nexora.</p>
+          </div>
+          <span class="count-badge" id="resultBadge">Loading...</span>
+        </div>
+
+        <div class="filters">
+          <div class="search-wrap">
+            <span class="search-icon">⌕</span>
+            <input
+              type="search"
+              class="search-input"
+              id="searchInput"
+              placeholder="Search product, ID or supplier..."
+              aria-label="Search products"
+            >
+          </div>
+
+          <select
+            class="category-select"
+            id="categoryFilter"
+            aria-label="Filter by category"
+          >
+            <option value="">All Categories</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Supplier / Shop</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+
+            <tbody id="productTableBody">
+              <tr>
+                <td colspan="7">
+                  <div class="message-row">
+                    Loading products from Nexora API...
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel-footer">
+          <span id="showingText">Loading product list...</span>
+          <span>Royal Blue + White Admin</span>
+        </div>
+      </section>
+
+      <p class="footer-note">
+        Note: This page currently displays product information from the API.
+        Add, Edit and Delete operations are not connected yet.
+      </p>
+
+    </main>
+  </div>
+
+  <script>
+    const API_URL = "https://nexora-marketplace-x4x7.onrender.com";
+
+    const productTableBody = document.getElementById("productTableBody");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    let allProducts = [];
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, function (char) {
+        const entities = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        };
+
+        return entities[char];
+      });
+    }
+
+    function getStock(product) {
+      const value = Number(product.stock ?? product.quantity ?? 0);
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    }
+
+    function getCategory(product) {
+      return product.category || "Uncategorized";
+    }
+
+    function getShopName(product) {
+      return product.shopName || product.shop_name || "Supplier not specified";
+    }
+
+    function formatPrice(price) {
+      const amount = Number(price);
+
+      if (!Number.isFinite(amount)) {
+        return "N/A";
+      }
+
+      return "৳" + amount.toLocaleString("en-BD");
+    }
+
+    function getStockStatus(stock) {
+      if (stock === 0) {
+        return {
+          label: "Out of Stock",
+          className: "status-out",
+          stockClass: "stock-out"
+        };
+      }
+
+      if (stock <= 5) {
+        return {
+          label: "Low Stock",
+          className: "status-low",
+          stockClass: "stock-low"
+        };
+      }
+
+      return {
+        label: "Available",
+        className: "status-available",
+        stockClass: "stock-good"
+      };
+    }
+
+    function updateStatistics(products) {
+      const totalStock = products.reduce(function (sum, product) {
+        return sum + getStock(product);
+      }, 0);
+
+      const lowStockCount = products.filter(function (product) {
+        const stock = getStock(product);
+        return stock > 0 && stock <= 5;
+      }).length;
+
+      const outOfStockCount = products.filter(function (product) {
+        return getStock(product) === 0;
+      }).length;
+
+      document.getElementById("totalProducts").textContent =
+        products.length.toLocaleString("en-BD");
+
+      document.getElementById("availableStock").textContent =
+        totalStock.toLocaleString("en-BD");
+
+      document.getElementById("lowStock").textContent =
+        lowStockCount.toLocaleString("en-BD");
+
+      document.getElementById("outOfStock").textContent =
+        outOfStockCount.toLocaleString("en-BD");
+    }
+
+    function updateCategoryOptions(products) {
+      const selectedCategory = categoryFilter.value;
+
+      const categories = [...new Set(
+        products.map(getCategory).filter(Boolean)
+      )].sort(function (a, b) {
+        return a.localeCompare(b);
+      });
+
+      categoryFilter.innerHTML =
+        '<option value="">All Categories</option>';
+
+      categories.forEach(function (category) {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+      });
+
+      if (categories.includes(selectedCategory)) {
+        categoryFilter.value = selectedCategory;
+      }
+    }
+
+    function renderProducts(products) {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      const selectedCategory = categoryFilter.value;
+
+      const filteredProducts = products.filter(function (product) {
+        const productName = String(product.name || "").toLowerCase();
+        const productId = String(product.id ?? "").toLowerCase();
+        const shopName = getShopName(product).toLowerCase();
+        const category = getCategory(product);
+
+        const matchesSearch =
+          productName.includes(searchTerm) ||
+          productId.includes(searchTerm) ||
+          shopName.includes(searchTerm);
+
+        const matchesCategory =
+          !selectedCategory || category === selectedCategory;
+
+        return matchesSearch && matchesCategory;
+      });
+
+      document.getElementById("resultBadge").textContent =
+        filteredProducts.length + " Products";
+
+      document.getElementById("showingText").textContent =
+        "Showing " + filteredProducts.length +
+        " of " + products.length + " products";
+
+      if (filteredProducts.length === 0) {
+        productTableBody.innerHTML = `
+          <tr>
+            <td colspan="7">
+              <div class="message-row">
+                <strong>No products found</strong>
+                Try a different search term or category.
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      productTableBody.innerHTML = filteredProducts.map(function (product) {
+        const stock = getStock(product);
+        const status = getStockStatus(stock);
+        const productId = escapeHTML(product.id ?? "");
+        const productName = escapeHTML(product.name || "Unnamed Product");
+        const category = escapeHTML(getCategory(product));
+        const shopName = escapeHTML(getShopName(product));
+        const price = escapeHTML(formatPrice(product.price));
+        const imageURL = String(product.image || "").trim();
+
+        let imageHTML = '<span>No image</span>';
+
+        if (/^https?:\/\//i.test(imageURL)) {
+          imageHTML = `
+            <img
+              src="${escapeHTML(imageURL)}"
+              alt="${productName}"
+              loading="lazy"
+              onerror="this.style.display='none'; this.parentElement.textContent='No image';"
+            >
+          `;
+        }
+
+        const detailsURL =
+          "product-details.html?id=" + encodeURIComponent(String(product.id ?? ""));
+
+        return `
+          <tr>
+            <td>
+              <div class="product-cell">
+                <div class="product-image">${imageHTML}</div>
+                <div>
+                  <div class="product-name">${productName}</div>
+                  <div class="product-id">ID: #${productId}</div>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <div class="supplier-name">${shopName}</div>
+            </td>
+
+            <td>
+              <span class="category-badge">${category}</span>
+            </td>
+
+            <td>
+              <span class="price">${price}</span>
+            </td>
+
+            <td>
+              <span class="stock ${status.stockClass}">
+                ${stock.toLocaleString("en-BD")} units
+              </span>
+            </td>
+
+            <td>
+              <span class="status-badge ${status.className}">
+                ${status.label}
+              </span>
+            </td>
+
+            <td>
+              <a class="view-link" href="${detailsURL}">View Details</a>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function loadProducts() {
+      refreshBtn.disabled = true;
+      refreshBtn.innerHTML = "<span>↻</span> Loading...";
+
+      productTableBody.innerHTML = `
+        <tr>
+          <td colspan="7">
+            <div class="message-row">Loading products...</div>
+          </td>
+        </tr>
+      `;
+
+      try {
+        const response = await fetch(API_URL + "/api/products");
+
+        if (!response.ok) {
+          throw new Error("API returned status " + response.status);
+        }
+
+        const result = await response.json();
+
+        // Supports either an array or an object containing a products array.
+        let products;
+
+        if (Array.isArray(result)) {
+          products = result;
+        } else if (result && Array.isArray(result.products)) {
+          products = result.products;
+        } else if (result && Array.isArray(result.data)) {
+          products = result.data;
+        } else {
+          throw new Error("The API response does not contain a product list.");
+        }
+
+        allProducts = products;
+
+        updateStatistics(allProducts);
+        updateCategoryOptions(allProducts);
+        renderProducts(allProducts);
+
+      } catch (error) {
+        console.error("Product loading error:", error);
+
+        document.getElementById("resultBadge").textContent = "Load Failed";
+        document.getElementById("showingText").textContent =
+          "Could not load the product list.";
+
+        productTableBody.innerHTML = `
+          <tr>
+            <td colspan="7">
+              <div class="message-row">
+                <strong>Unable to load products</strong>
+                Check your internet connection and confirm that the Nexora backend is running.
+                <br>
+                Then click “Refresh Products” to try again.
+              </div>
+            </td>
+          </tr>
+        `;
+
+        document.getElementById("totalProducts").textContent = "—";
+        document.getElementById("availableStock").textContent = "—";
+        document.getElementById("lowStock").textContent = "—";
+        document.getElementById("outOfStock").textContent = "—";
+
+      } finally {
+        refreshBtn.disabled = false;
+        refreshBtn.innerHTML = "<span>↻</span> Refresh Products";
+      }
+    }
+
+    searchInput.addEventListener("input", function () {
+      renderProducts(allProducts);
+    });
+
+    categoryFilter.addEventListener("change", function () {
+      renderProducts(allProducts);
+    });
+
+    refreshBtn.addEventListener("click", loadProducts);
+
+    loadProducts();
+  </script>
+</body>
+</html>

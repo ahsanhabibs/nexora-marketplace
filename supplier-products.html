@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Products | Nexora Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blue: #3563f5;
+      --blue-dark: #244bd0;
+      --navy: #101a35;
+      --bg: #f5f7ff;
+      --white: #fff;
+      --text: #26324b;
+      --muted: #78839b;
+      --border: #e8ecf5;
+      --green: #15803d;
+      --red: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    button, input, select { font: inherit; }
+
+    .layout { min-height: 100vh; }
+
+    .sidebar {
+      width: 245px;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      padding: 26px 18px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 5;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 23px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0 8px 10px;
+    }
+
+    .brand-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--blue);
+      border-radius: 12px;
+      font-weight: 800;
+    }
+
+    .workspace {
+      margin: 0 8px 30px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #9aa4b8;
+      margin: 0 10px 12px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 12px;
+      border-radius: 11px;
+      margin-bottom: 5px;
+      color: #65718a;
+      font-size: 13px;
+      font-weight: 600;
+      transition: .2s;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: #edf2ff;
+      color: var(--blue);
+    }
+
+    .nav-icon { width: 21px; text-align: center; }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .main { margin-left: 245px; padding: 30px; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    h1 { color: var(--navy); font-size: 28px; letter-spacing: -1px; }
+    .subtitle { color: var(--muted); font-size: 13px; margin-top: 9px; line-height: 1.7; }
+
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+
+    .store-select, .search-input, .filter-select {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 11px;
+      padding: 12px 13px;
+      outline: none;
+      min-width: 0;
+    }
+
+    .store-select { max-width: 230px; }
+    .store-select:focus, .search-input:focus, .filter-select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px #3563f51a;
+    }
+
+    .btn {
+      border: 0;
+      background: var(--blue);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 11px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn:hover { background: var(--blue-dark); }
+    .btn-secondary { background: white; color: var(--blue); border: 1px solid #dce5ff; }
+    .btn-secondary:hover { background: #edf2ff; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card, .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      box-shadow: 0 6px 25px #17255405;
+    }
+
+    .stat-card { padding: 21px; }
+
+    .stat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .stat-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: #edf2ff;
+      font-size: 18px;
+    }
+
+    .stat-value { margin-top: 15px; font-size: 28px; font-weight: 800; color: var(--navy); }
+    .stat-note { font-size: 11px; color: var(--muted); margin-top: 7px; }
+
+    .panel { overflow: hidden; }
+
+    .panel-header {
+      padding: 21px 23px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-title { color: var(--navy); font-size: 16px; font-weight: 800; }
+    .panel-description { color: var(--muted); font-size: 12px; margin-top: 6px; }
+
+    .filters {
+      display: grid;
+      grid-template-columns: minmax(200px, 1fr) 190px;
+      gap: 12px;
+      padding: 20px 23px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-wrap { position: relative; }
+    .search-wrap span { position: absolute; left: 13px; top: 12px; }
+    .search-input { width: 100%; padding-left: 39px; }
+    .filter-select { width: 100%; }
+
+    .table-wrap { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+
+    th {
+      text-align: left;
+      padding: 14px 20px;
+      color: #8a95aa;
+      font-size: 10px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      background: #fbfcff;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 16px 20px;
+      border-top: 1px solid #f0f2f8;
+      font-size: 12px;
+      vertical-align: middle;
+    }
+
+    .product-cell { display: flex; align-items: center; gap: 13px; min-width: 220px; }
+
+    .product-image {
+      width: 58px;
+      height: 58px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #f7f9ff;
+      object-fit: contain;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .product-name { color: var(--navy); font-weight: 700; line-height: 1.5; }
+    .product-id { color: var(--muted); font-size: 10px; margin-top: 5px; }
+    .price { font-weight: 800; color: var(--navy); white-space: nowrap; }
+
+    .category-tag {
+      display: inline-block;
+      background: #f0f4ff;
+      color: #4565c5;
+      padding: 6px 9px;
+      border-radius: 7px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .stock { font-weight: 700; white-space: nowrap; }
+    .stock.low { color: var(--red); }
+    .stock.available { color: var(--green); }
+
+    .view-link { color: var(--blue); font-weight: 700; white-space: nowrap; }
+    .view-link:hover { text-decoration: underline; }
+
+    .state {
+      padding: 35px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .state strong { display: block; color: var(--navy); margin-bottom: 5px; }
+
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 22px;
+      background: #eef3ff;
+      border: 1px solid #dce6ff;
+      padding: 17px 19px;
+      border-radius: 14px;
+      color: #415780;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .notice strong { color: var(--navy); }
+
+    .footer { padding: 24px 0 5px; color: var(--muted); font-size: 11px; text-align: center; }
+
+    @media (max-width: 1050px) {
+      .sidebar { width: 210px; }
+      .main { margin-left: 210px; padding: 24px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .top-actions { width: 100%; flex-wrap: wrap; }
+      .store-select { flex: 1; }
+    }
+
+    @media (max-width: 700px) {
+      .sidebar { position: static; width: 100%; padding: 16px; border-right: 0; border-bottom: 1px solid var(--border); }
+      .workspace { margin-bottom: 17px; }
+      .sidebar nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+      .nav-label { margin-top: 10px; }
+      .sidebar-bottom { margin-top: 14px; }
+      .main { margin-left: 0; padding: 20px 14px; }
+      h1 { font-size: 24px; }
+      .stats { grid-template-columns: 1fr; gap: 12px; }
+      .stat-card { padding: 17px; }
+      .filters { grid-template-columns: 1fr; padding: 15px; }
+      .panel-header { padding: 17px 15px; align-items: flex-start; flex-direction: column; }
+      .top-actions { align-items: stretch; flex-direction: column; }
+      .store-select { max-width: none; width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-icon">N</span>
+        <span>Nexora<span style="color:#3563f5">.</span></span>
+      </a>
+      <p class="workspace">Supplier Workspace</p>
+
+      <p class="nav-label">SUPPLIER MENU</p>
+      <nav>
+        <a class="nav-link" href="supplier-dashboard.html"><span class="nav-icon">▦</span>Dashboard</a>
+        <a class="nav-link active" href="supplier-products.html"><span class="nav-icon">▣</span>My Products</a>
+        <a class="nav-link" href="supplier-orders.html"><span class="nav-icon">▤</span>My Orders</a>
+        <a class="nav-link" href="products.html"><span class="nav-icon">⌕</span>Marketplace</a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a class="nav-link" href="index.html"><span class="nav-icon">↗</span>Visit Website</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Supplier Workspace / Products</p>
+          <h1>My Products</h1>
+          <p class="subtitle">View your store's products, prices, categories and stock in one place.</p>
+        </div>
+
+        <div class="top-actions">
+          <select class="store-select" id="storeSelect" aria-label="Select supplier store">
+            <option value="">Loading stores...</option>
+          </select>
+          <button class="btn btn-secondary" id="refreshBtn" type="button">↻ Refresh</button>
+        </div>
+      </header>
+
+      <section class="stats">
+        <article class="stat-card">
+          <div class="stat-top"><span>My Products</span><span class="stat-icon">▣</span></div>
+          <div class="stat-value" id="totalProducts">—</div>
+          <p class="stat-note">Products in the selected store</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top"><span>Available Stock</span><span class="stat-icon">📦</span></div>
+          <div class="stat-value" id="totalStock">—</div>
+          <p class="stat-note">Total listed stock quantity</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top"><span>Low Stock Items</span><span class="stat-icon">⚠️</span></div>
+          <div class="stat-value" id="lowStock">—</div>
+          <p class="stat-note">Products with stock of 5 or less</p>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Product Inventory</h2>
+            <p class="panel-description">Search and filter products from your selected supplier store.</p>
+          </div>
+          <span class="category-tag" id="resultCount">0 products</span>
+        </div>
+
+        <div class="filters">
+          <div class="search-wrap">
+            <span>⌕</span>
+            <input class="search-input" id="searchInput" type="search" placeholder="Search by product name or ID...">
+          </div>
+          <select class="filter-select" id="categoryFilter" aria-label="Filter by category">
+            <option value="">All Categories</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="productTable">
+              <tr><td colspan="5"><div class="state">Loading products...</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="notice">
+        <span>ℹ️</span>
+        <div>
+          <strong>Product management information</strong><br>
+          This page currently displays live product data from the marketplace API. Adding, editing and deleting products will be connected after the required backend endpoints and supplier permissions are implemented.
+        </div>
+      </div>
+
+      <footer class="footer">© 2026 Nexora Marketplace. Supplier Workspace.</footer>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE = "https://nexora-marketplace-x4x7.onrender.com";
+
+    const storeSelect = document.getElementById("storeSelect");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const productTable = document.getElementById("productTable");
+
+    let allProducts = [];
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, function (char) {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[char];
+      });
+    }
+
+    function getProductStore(product) {
+      return product.shopName || product.shop_name || product.supplierName || product.supplier_name || "Unassigned Store";
+    }
+
+    function getProductId(product) {
+      return product.id ?? product._id ?? "";
+    }
+
+    function getProductStock(product) {
+      const stock = Number(product.stock ?? product.quantity ?? 0);
+      return Number.isFinite(stock) ? stock : 0;
+    }
+
+    function formatPrice(price) {
+      const amount = Number(price);
+      if (!Number.isFinite(amount)) return "Price unavailable";
+      return "৳" + amount.toLocaleString("en-BD");
+    }
+
+    function loadStoreOptions() {
+      const previousStore = storeSelect.value;
+      const stores = [...new Set(allProducts.map(getProductStore))].sort();
+
+      storeSelect.innerHTML = stores.map(function (store) {
+        return `<option value="${escapeHTML(store)}">${escapeHTML(store)}</option>`;
+      }).join("");
+
+      if (stores.includes(previousStore)) {
+        storeSelect.value = previousStore;
+      }
+    }
+
+    function loadCategoryOptions(products) {
+      const previousCategory = categoryFilter.value;
+      const categories = [...new Set(products.map(p => p.category).filter(Boolean))].sort();
+
+      categoryFilter.innerHTML =
+        '<option value="">All Categories</option>' +
+        categories.map(category =>
+          `<option value="${escapeHTML(category)}">${escapeHTML(category)}</option>`
+        ).join("");
+
+      if (categories.includes(previousCategory)) {
+        categoryFilter.value = previousCategory;
+      }
+    }
+
+    function getSelectedProducts() {
+      const selectedStore = storeSelect.value;
+      return allProducts.filter(product => getProductStore(product) === selectedStore);
+    }
+
+    function updateStats(products) {
+      document.getElementById("totalProducts").textContent = products.length;
+
+      const stockTotal = products.reduce((sum, product) => sum + getProductStock(product), 0);
+      document.getElementById("totalStock").textContent = stockTotal.toLocaleString("en-BD");
+
+      const lowStockCount = products.filter(product => getProductStock(product) <= 5).length;
+      document.getElementById("lowStock").textContent = lowStockCount;
+    }
+
+    function renderProducts() {
+      const selectedProducts = getSelectedProducts();
+      updateStats(selectedProducts);
+      loadCategoryOptions(selectedProducts);
+
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      const selectedCategory = categoryFilter.value;
+
+      const filteredProducts = selectedProducts.filter(product => {
+        const matchesSearch =
+          String(product.name || "").toLowerCase().includes(searchTerm) ||
+          String(getProductId(product)).toLowerCase().includes(searchTerm);
+
+        const matchesCategory = !selectedCategory || product.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      });
+
+      document.getElementById("resultCount").textContent =
+        `${filteredProducts.length} product${filteredProducts.length === 1 ? "" : "s"}`;
+
+      if (!filteredProducts.length) {
+        productTable.innerHTML = `
+          <tr><td colspan="5">
+            <div class="state">
+              <strong>No products found</strong>
+              Try another search or select a different supplier store.
+            </div>
+          </td></tr>`;
+        return;
+      }
+
+      productTable.innerHTML = filteredProducts.map(product => {
+        const id = getProductId(product);
+        const stock = getProductStock(product);
+        const image = product.image || product.imageUrl || product.image_url || "";
+        const detailsUrl = "product-details.html?id=" + encodeURIComponent(id);
+
+        const imageMarkup = image
+          ? `<img class="product-image" src="${escapeHTML(image)}" alt="${escapeHTML(product.name || "Product")}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/120x120/f0f4ff/3563f5?text=Nexora'">`
+          : `<img class="product-image" src="https://placehold.co/120x120/f0f4ff/3563f5?text=Nexora" alt="Product image unavailable">`;
+
+        return `
+          <tr>
+            <td>
+              <div class="product-cell">
+                ${imageMarkup}
+                <div>
+                  <div class="product-name">${escapeHTML(product.name || "Unnamed Product")}</div>
+                  <div class="product-id">ID: ${escapeHTML(id || "N/A")}</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="category-tag">${escapeHTML(product.category || "Uncategorized")}</span></td>
+            <td class="price">${formatPrice(product.price)}</td>
+            <td><span class="stock ${stock <= 5 ? "low" : "available"}">${stock} units</span></td>
+            <td><a class="view-link" href="${detailsUrl}">View Details ↗</a></td>
+          </tr>`;
+      }).join("");
+    }
+
+    async function fetchProducts() {
+      productTable.innerHTML = '<tr><td colspan="5"><div class="state">Loading products...</div></td></tr>';
+      document.getElementById("totalProducts").textContent = "—";
+      document.getElementById("totalStock").textContent = "—";
+      document.getElementById("lowStock").textContent = "—";
+
+      try {
+        const response = await fetch(`${API_BASE}/api/products`);
+        if (!response.ok) throw new Error("API request failed");
+
+        const data = await response.json();
+        const products = Array.isArray(data) ? data : data.products;
+
+        if (!Array.isArray(products)) {
+          throw new Error("Unexpected product API response");
+        }
+
+        allProducts = products;
+        loadStoreOptions();
+
+        if (!allProducts.length) {
+          storeSelect.innerHTML = '<option value="">No supplier stores</option>';
+          renderProducts();
+          return;
+        }
+
+        renderProducts();
+      } catch (error) {
+        console.error("Could not load products:", error);
+        storeSelect.innerHTML = '<option value="">Unable to load stores</option>';
+        productTable.innerHTML = `
+          <tr><td colspan="5">
+            <div class="state">
+              <strong>Products could not be loaded</strong>
+              Check your internet connection or try Refresh again.
+            </div>
+          </td></tr>`;
+        document.getElementById("resultCount").textContent = "Unavailable";
+      }
+    }
+
+    storeSelect.addEventListener("change", renderProducts);
+    searchInput.addEventListener("input", renderProducts);
+    categoryFilter.addEventListener("change", renderProducts);
+    document.getElementById("refreshBtn").addEventListener("click", fetchProducts);
+
+    fetchProducts();
+  </script>
+</body>
+</html>

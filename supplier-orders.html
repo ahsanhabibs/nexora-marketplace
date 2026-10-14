@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders | Nexora Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blue: #3563f5;
+      --blue-dark: #244bd0;
+      --navy: #101a35;
+      --bg: #f5f7ff;
+      --white: #fff;
+      --text: #26324b;
+      --muted: #78839b;
+      --border: #e8ecf5;
+      --green: #15803d;
+      --red: #dc2626;
+      --orange: #b45309;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+
+    .sidebar {
+      width: 245px;
+      background: white;
+      border-right: 1px solid var(--border);
+      padding: 26px 18px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 5;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 23px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0 8px 10px;
+    }
+
+    .brand-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--blue);
+      border-radius: 12px;
+    }
+
+    .workspace { margin: 0 8px 30px; color: var(--muted); font-size: 12px; }
+    .nav-label { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; color: #9aa4b8; margin: 0 10px 12px; }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 12px;
+      border-radius: 11px;
+      margin-bottom: 5px;
+      color: #65718a;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .nav-link:hover, .nav-link.active { background: #edf2ff; color: var(--blue); }
+    .nav-icon { width: 21px; text-align: center; }
+    .sidebar-bottom { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border); }
+    .main { margin-left: 245px; padding: 30px; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow { color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 9px; }
+    h1 { color: var(--navy); font-size: 28px; letter-spacing: -1px; }
+    .subtitle { color: var(--muted); font-size: 13px; margin-top: 9px; line-height: 1.7; }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+
+    .store-select, .search-input, .filter-select {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 11px;
+      padding: 12px 13px;
+      outline: none;
+      min-width: 0;
+    }
+
+    .store-select { max-width: 230px; }
+    .store-select:focus, .search-input:focus, .filter-select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px #3563f51a; }
+
+    .btn {
+      border: 0;
+      background: var(--blue);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 11px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn:hover { background: var(--blue-dark); }
+    .btn-secondary { background: white; color: var(--blue); border: 1px solid #dce5ff; }
+    .btn-secondary:hover { background: #edf2ff; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-bottom: 24px; }
+    .stat-card, .panel { background: white; border: 1px solid var(--border); border-radius: 17px; box-shadow: 0 6px 25px #17255405; }
+    .stat-card { padding: 21px; }
+    .stat-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; font-weight: 600; }
+    .stat-icon { width: 39px; height: 39px; display: grid; place-items: center; border-radius: 12px; background: #edf2ff; font-size: 18px; }
+    .stat-value { margin-top: 15px; font-size: 28px; font-weight: 800; color: var(--navy); }
+    .stat-note { font-size: 11px; color: var(--muted); margin-top: 7px; }
+
+    .panel { overflow: hidden; }
+    .panel-header { padding: 21px 23px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-bottom: 1px solid var(--border); }
+    .panel-title { color: var(--navy); font-size: 16px; font-weight: 800; }
+    .panel-description { color: var(--muted); font-size: 12px; margin-top: 6px; }
+
+    .filters { display: grid; grid-template-columns: minmax(200px, 1fr) 190px; gap: 12px; padding: 20px 23px; border-bottom: 1px solid var(--border); }
+    .search-wrap { position: relative; }
+    .search-wrap span { position: absolute; left: 13px; top: 12px; }
+    .search-input { width: 100%; padding-left: 39px; }
+    .filter-select { width: 100%; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 820px; }
+    th { text-align: left; padding: 14px 18px; color: #8a95aa; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; background: #fbfcff; white-space: nowrap; }
+    td { padding: 17px 18px; border-top: 1px solid #f0f2f8; font-size: 12px; vertical-align: top; }
+    .order-id { font-weight: 800; color: var(--navy); }
+    .muted { color: var(--muted); font-size: 11px; margin-top: 5px; line-height: 1.6; }
+    .customer-name { font-weight: 700; color: var(--navy); }
+    .item-name { font-weight: 600; line-height: 1.6; }
+    .amount { color: var(--navy); font-weight: 800; white-space: nowrap; }
+    .status { display: inline-block; padding: 6px 9px; border-radius: 20px; font-size: 10px; font-weight: 800; white-space: nowrap; }
+    .status-pending { background: #fff5e6; color: var(--orange); }
+    .status-confirmed { background: #eaf8ef; color: var(--green); }
+    .status-other { background: #eef2ff; color: #4b5da8; }
+    .view-link { color: var(--blue); font-weight: 700; white-space: nowrap; }
+    .view-link:hover { text-decoration: underline; }
+
+    .state { padding: 35px 20px; text-align: center; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .state strong { display: block; color: var(--navy); margin-bottom: 5px; }
+    .notice { display: flex; align-items: flex-start; gap: 12px; margin-top: 22px; background: #eef3ff; border: 1px solid #dce6ff; padding: 17px 19px; border-radius: 14px; color: #415780; font-size: 12px; line-height: 1.8; }
+    .notice strong { color: var(--navy); }
+    .footer { padding: 24px 0 5px; color: var(--muted); font-size: 11px; text-align: center; }
+
+    @media (max-width: 1050px) {
+      .sidebar { width: 210px; }
+      .main { margin-left: 210px; padding: 24px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .top-actions { width: 100%; flex-wrap: wrap; }
+      .store-select { flex: 1; }
+    }
+
+    @media (max-width: 700px) {
+      .sidebar { position: static; width: 100%; padding: 16px; border-right: 0; border-bottom: 1px solid var(--border); }
+      .workspace { margin-bottom: 17px; }
+      .sidebar nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+      .sidebar-bottom { margin-top: 14px; }
+      .main { margin-left: 0; padding: 20px 14px; }
+      h1 { font-size: 24px; }
+      .stats { grid-template-columns: 1fr; gap: 12px; }
+      .stat-card { padding: 17px; }
+      .filters { grid-template-columns: 1fr; padding: 15px; }
+      .panel-header { padding: 17px 15px; align-items: flex-start; flex-direction: column; }
+      .top-actions { align-items: stretch; flex-direction: column; }
+      .store-select { max-width: none; width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="index.html">
+      <span class="brand-icon">N</span>
+      <span>Nexora<span style="color:#3563f5">.</span></span>
+    </a>
+    <p class="workspace">Supplier Workspace</p>
+
+    <p class="nav-label">SUPPLIER MENU</p>
+    <nav>
+      <a class="nav-link" href="supplier-dashboard.html"><span class="nav-icon">▦</span>Dashboard</a>
+      <a class="nav-link" href="supplier-products.html"><span class="nav-icon">▣</span>My Products</a>
+      <a class="nav-link active" href="supplier-orders.html"><span class="nav-icon">▤</span>My Orders</a>
+      <a class="nav-link" href="products.html"><span class="nav-icon">⌕</span>Marketplace</a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a class="nav-link" href="index.html"><span class="nav-icon">↗</span>Visit Website</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Supplier Workspace / Orders</p>
+        <h1>My Orders</h1>
+        <p class="subtitle">Review orders that contain products from your selected store.</p>
+      </div>
+      <div class="top-actions">
+        <select class="store-select" id="storeSelect" aria-label="Select supplier store">
+          <option value="">Loading stores...</option>
+        </select>
+        <button class="btn btn-secondary" id="refreshBtn" type="button">↻ Refresh</button>
+      </div>
+    </header>
+
+    <section class="stats">
+      <article class="stat-card">
+        <div class="stat-top"><span>My Orders</span><span class="stat-icon">▤</span></div>
+        <div class="stat-value" id="totalOrders">—</div>
+        <p class="stat-note">Orders matching your store's products</p>
+      </article>
+      <article class="stat-card">
+        <div class="stat-top"><span>Pending Orders</span><span class="stat-icon">◷</span></div>
+        <div class="stat-value" id="pendingOrders">—</div>
+        <p class="stat-note">Orders awaiting confirmation</p>
+      </article>
+      <article class="stat-card">
+        <div class="stat-top"><span>Confirmed Orders</span><span class="stat-icon">✓</span></div>
+        <div class="stat-value" id="confirmedOrders">—</div>
+        <p class="stat-note">Orders marked as confirmed</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Order History</h2>
+          <p class="panel-description">Orders are matched using product IDs or product names.</p>
+        </div>
+        <span class="status status-other" id="resultCount">0 orders</span>
+      </div>
+
+      <div class="filters">
+        <div class="search-wrap">
+          <span>⌕</span>
+          <input class="search-input" id="searchInput" type="search" placeholder="Search order ID or customer...">
+        </div>
+        <select class="filter-select" id="statusFilter" aria-label="Filter by order status">
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="other">Other Statuses</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Customer</th>
+              <th>Matching Products</th>
+              <th>Order Amount</th>
+              <th>Status</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTable">
+            <tr><td colspan="6"><div class="state">Loading orders...</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="notice">
+      <span>ℹ️</span>
+      <div>
+        <strong>Order access and supplier permissions</strong><br>
+        This page currently reads orders from the existing API and filters them in the browser. Supplier-specific secure access and order action permissions must be implemented on the backend before using this page with real customer data.
+      </div>
+    </div>
+
+    <footer class="footer">© 2026 Nexora Marketplace. Supplier Workspace.</footer>
+  </main>
+
+  <script>
+    const API_BASE = "https://nexora-marketplace-x4x7.onrender.com";
+
+    const storeSelect = document.getElementById("storeSelect");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const ordersTable = document.getElementById("ordersTable");
+
+    let allProducts = [];
+    let allOrders = [];
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function getStore(product) {
+      return product.shopName || product.shop_name || product.supplierName || product.supplier_name || "Unassigned Store";
+    }
+
+    function getProductId(product) {
+      return product.id ?? product._id ?? "";
+    }
+
+    function getOrderId(order) {
+      return order.id ?? order.orderId ?? order.order_id ?? order._id ?? "N/A";
+    }
+
+    function getOrderStatus(order) {
+      return String(order.status || order.orderStatus || order.order_status || "Pending").toLowerCase();
+    }
+
+    function getOrderItems(order) {
+      if (Array.isArray(order.items)) return order.items;
+      if (Array.isArray(order.products)) return order.products;
+      return [];
+    }
+
+    function itemProductId(item) {
+      return item.productId ?? item.product_id ?? item.id ?? item._id ?? item.product?.id ?? item.product?._id ?? "";
+    }
+
+    function itemProductName(item) {
+      return item.name ?? item.productName ?? item.product_name ?? item.product?.name ?? "";
+    }
+
+    function itemQuantity(item) {
+      return Number(item.quantity ?? item.qty ?? 1) || 1;
+    }
+
+    function getCustomerName(order) {
+      return order.customerName || order.customer_name ||
+        order.customer?.name || order.name || "Customer";
+    }
+
+    function getCustomerContact(order) {
+      return order.phone || order.customerPhone || order.customer_phone ||
+        order.customer?.phone || order.email || order.customer?.email || "";
+    }
+
+    function money(value) {
+      const amount = Number(value);
+      return Number.isFinite(amount) ? "৳" + amount.toLocaleString("en-BD") : "—";
+    }
+
+    function loadStoreOptions() {
+      const oldStore = storeSelect.value;
+      const stores = [...new Set(allProducts.map(getStore))].sort();
+
+      storeSelect.innerHTML = stores.map(store =>
+        `<option value="${escapeHTML(store)}">${escapeHTML(store)}</option>`
+      ).join("");
+
+      if (stores.includes(oldStore)) storeSelect.value = oldStore;
+    }
+
+    function getSelectedStoreProducts() {
+      return allProducts.filter(product => getStore(product) === storeSelect.value);
+    }
+
+    function findMatchingItems(order, supplierProducts) {
+      const productIds = new Set(supplierProducts.map(p => String(getProductId(p))));
+      const productNames = new Set(supplierProducts.map(p => String(p.name || "").trim().toLowerCase()));
+
+      return getOrderItems(order).filter(item => {
+        const id = String(itemProductId(item));
+        const name = String(itemProductName(item)).trim().toLowerCase();
+        return (id && productIds.has(id)) || (name && productNames.has(name));
+      });
+    }
+
+    function renderOrders() {
+      const supplierProducts = getSelectedStoreProducts();
+
+      const matchedOrders = allOrders.map(order => ({
+        order,
+        items: findMatchingItems(order, supplierProducts)
+      })).filter(entry => entry.items.length > 0);
+
+      const pending = matchedOrders.filter(entry => getOrderStatus(entry.order) === "pending").length;
+      const confirmed = matchedOrders.filter(entry => getOrderStatus(entry.order) === "confirmed").length;
+
+      document.getElementById("totalOrders").textContent = matchedOrders.length;
+      document.getElementById("pendingOrders").textContent = pending;
+      document.getElementById("confirmedOrders").textContent = confirmed;
+
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      const selectedStatus = statusFilter.value;
+
+      const filtered = matchedOrders.filter(entry => {
+        const order = entry.order;
+        const status = getOrderStatus(order);
+        const customer = getCustomerName(order);
+        const id = String(getOrderId(order));
+
+        const matchesSearch = id.toLowerCase().includes(searchTerm) ||
+          customer.toLowerCase().includes(searchTerm) ||
+          String(getCustomerContact(order)).toLowerCase().includes(searchTerm);
+
+        let matchesStatus = true;
+        if (selectedStatus === "pending") matchesStatus = status === "pending";
+        if (selectedStatus === "confirmed") matchesStatus = status === "confirmed";
+        if (selectedStatus === "other") matchesStatus = status !== "pending" && status !== "confirmed";
+
+        return matchesSearch && matchesStatus;
+      });
+
+      document.getElementById("resultCount").textContent =
+        `${filtered.length} order${filtered.length === 1 ? "" : "s"}`;
+
+      if (!filtered.length) {
+        ordersTable.innerHTML = `
+          <tr><td colspan="6">
+            <div class="state">
+              <strong>No matching orders found</strong>
+              Orders containing products from this store will appear here.
+            </div>
+          </td></tr>`;
+        return;
+      }
+
+      ordersTable.innerHTML = filtered.map(({ order, items }) => {
+        const id = getOrderId(order);
+        const status = getOrderStatus(order);
+        const customer = getCustomerName(order);
+        const contact = getCustomerContact(order);
+        const total = order.total ?? order.totalAmount ?? order.total_amount ?? order.amount;
+        const statusClass = status === "pending" ? "status-pending" :
+          status === "confirmed" ? "status-confirmed" : "status-other";
+
+        const matchingItems = items.map(item => {
+          const name = itemProductName(item) || "Product";
+          return `<div class="item-name">${escapeHTML(name)} <span class="muted">× ${itemQuantity(item)}</span></div>`;
+        }).join("");
+
+        const orderDetailsUrl = "admin-orders.html";
+        const createdAt = order.createdAt || order.created_at || order.date || "";
+        const dateText = createdAt && !Number.isNaN(Date.parse(createdAt))
+          ? new Date(createdAt).toLocaleDateString("en-BD")
+          : "";
+
+        return `
+          <tr>
+            <td>
+              <div class="order-id">#${escapeHTML(id)}</div>
+              <div class="muted">${escapeHTML(dateText || "Order date unavailable")}</div>
+            </td>
+            <td>
+              <div class="customer-name">${escapeHTML(customer)}</div>
+              <div class="muted">${escapeHTML(contact || "Contact unavailable")}</div>
+            </td>
+            <td>${matchingItems}</td>
+            <td class="amount">${money(total)}</td>
+            <td><span class="status ${statusClass}">${escapeHTML(status.charAt(0).toUpperCase() + status.slice(1))}</span></td>
+            <td><a class="view-link" href="${orderDetailsUrl}">Order Panel ↗</a></td>
+          </tr>`;
+      }).join("");
+    }
+
+    async function fetchOrdersPage() {
+      ordersTable.innerHTML = '<tr><td colspan="6"><div class="state">Loading orders...</div></td></tr>';
+
+      try {
+        const [productsResponse, ordersResponse] = await Promise.all([
+          fetch(`${API_BASE}/api/products`),
+          fetch(`${API_BASE}/api/orders`)
+        ]);
+
+        if (!productsResponse.ok) throw new Error("Products API request failed");
+        if (!ordersResponse.ok) throw new Error("Orders API request failed");
+
+        const productsData = await productsResponse.json();
+        const ordersData = await ordersResponse.json();
+
+        allProducts = Array.isArray(productsData) ? productsData : productsData.products;
+        allOrders = Array.isArray(ordersData) ? ordersData : ordersData.orders;
+
+        if (!Array.isArray(allProducts)) throw new Error("Unexpected products API response");
+        if (!Array.isArray(allOrders)) throw new Error("Unexpected orders API response");
+
+        loadStoreOptions();
+
+        if (!allProducts.length) {
+          storeSelect.innerHTML = '<option value="">No supplier stores</option>';
+        }
+
+        renderOrders();
+      } catch (error) {
+        console.error("Could not load supplier orders:", error);
+
+        ordersTable.innerHTML = `
+          <tr><td colspan="6">
+            <div class="state">
+              <strong>Orders could not be loaded</strong>
+              Check the API connection or press Refresh to try again.
+            </div>
+          </td></tr>`;
+
+        document.getElementById("totalOrders").textContent = "—";
+        document.getElementById("pendingOrders").textContent = "—";
+        document.getElementById("confirmedOrders").textContent = "—";
+        document.getElementById("resultCount").textContent = "Unavailable";
+      }
+    }
+
+    storeSelect.addEventListener("change", renderOrders);
+    searchInput.addEventListener("input", renderOrders);
+    statusFilter.addEventListener("change", renderOrders);
+    document.getElementById("refreshBtn").addEventListener("click", fetchOrdersPage);
+
+    fetchOrdersPage();
+  </script>
+</body>
+</html>

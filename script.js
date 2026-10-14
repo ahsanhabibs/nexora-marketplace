@@ -11,7 +11,7 @@ const PRODUCTS_URL = `${API_URL}/api/products`;
 const ORDERS_URL = `${API_URL}/api/orders`;
 
 let allProducts = [];
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("nexoraCart") || "[]");
 let activeCategory = "All";
 let searchTerm = "";
 let isSubmittingOrder = false;
@@ -205,7 +205,7 @@ function displayProducts() {
         : `<div class="product-icon">${icon}</div>`;
 
       return `
-        <article class="product-card">
+        <article class="product-card" data-product-id="${id}">
 
           <div class="product-image-wrap">
             ${imageHTML}
@@ -310,6 +310,7 @@ function addToCart(productId) {
 }
 
 function updateCart() {
+  localStorage.setItem("nexoraCart", JSON.stringify(cart));
   const totalQuantity = cart.reduce(
     (sum, item) => sum + item.quantity,
     0
@@ -409,9 +410,22 @@ if (productGrid) {
   productGrid.addEventListener("click", (event) => {
     const button = event.target.closest(".add-to-cart");
 
-    if (!button) return;
+    if (button) {
+      event.stopPropagation();
+      addToCart(button.dataset.productId);
+      return;
+    }
 
-    addToCart(button.dataset.productId);
+    const card = event.target.closest(".product-card");
+
+    if (card) {
+      const productId = card.dataset.productId;
+
+      if (productId) {
+        window.location.href =
+          `product-details.html?id=${encodeURIComponent(productId)}`;
+      }
+    }
   });
 }
 

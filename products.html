@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Shop All Products | Nexora Marketplace</title>
+  <meta name="description" content="Explore quality products from trusted suppliers at Nexora Marketplace.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .shop-page {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 38px 22px 70px;
+      font-family: 'Inter', sans-serif;
+      color: #101a35;
+    }
+
+    .shop-hero {
+      padding: 42px;
+      border-radius: 22px;
+      background: linear-gradient(120deg, #101a35, #244bd0, #3563f5);
+      color: white;
+      margin-bottom: 32px;
+    }
+
+    .shop-hero .eyebrow {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .8;
+    }
+
+    .shop-hero h1 {
+      font-size: clamp(30px, 4vw, 46px);
+      margin: 12px 0;
+      line-height: 1.15;
+    }
+
+    .shop-hero p {
+      max-width: 560px;
+      line-height: 1.8;
+      color: #e5ebff;
+      margin-bottom: 0;
+    }
+
+    .shop-toolbar {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .shop-search {
+      flex: 1;
+      min-width: 220px;
+      max-width: 480px;
+      padding: 14px 17px;
+      border: 1px solid #e1e7f2;
+      border-radius: 12px;
+      outline: none;
+      background: white;
+      font: inherit;
+    }
+
+    .shop-search:focus {
+      border-color: #3563f5;
+      box-shadow: 0 0 0 3px #3563f51c;
+    }
+
+    .shop-count {
+      color: #68738a;
+      font-size: 14px;
+    }
+
+    .shop-categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 28px;
+    }
+
+    .shop-category {
+      border: 1px solid #e0e7f3;
+      border-radius: 999px;
+      padding: 10px 17px;
+      background: white;
+      color: #46516a;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .shop-category:hover,
+    .shop-category.active {
+      background: #3563f5;
+      color: white;
+      border-color: #3563f5;
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .shop-product {
+      overflow: hidden;
+      background: white;
+      border: 1px solid #edf0f7;
+      border-radius: 17px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .shop-product:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px #101a3510;
+    }
+
+    .shop-product-image {
+      display: block;
+      width: 100%;
+      height: 210px;
+      object-fit: contain;
+      padding: 15px;
+      background: #f8faff;
+      cursor: pointer;
+    }
+
+    .shop-product-info {
+      padding: 17px;
+    }
+
+    .shop-product-category {
+      color: #71809a;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    .shop-product h3 {
+      margin: 9px 0;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .shop-product h3 a {
+      color: #101a35;
+      text-decoration: none;
+    }
+
+    .shop-product h3 a:hover {
+      color: #3563f5;
+    }
+
+    .shop-product-price {
+      color: #3563f5;
+      font-size: 21px;
+      font-weight: 800;
+      margin: 10px 0;
+    }
+
+    .shop-product-supplier {
+      color: #68738a;
+      font-size: 12px;
+      line-height: 1.6;
+      min-height: 20px;
+    }
+
+    .shop-product-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .shop-btn {
+      flex: 1;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 11px 9px;
+      border-radius: 9px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .shop-btn-primary {
+      color: white;
+      background: #3563f5;
+      border: 1px solid #3563f5;
+    }
+
+    .shop-btn-primary:hover {
+      background: #244bd0;
+    }
+
+    .shop-btn-secondary {
+      color: #3563f5;
+      background: white;
+      border: 1px solid #dce5ff;
+    }
+
+    .shop-btn-secondary:hover {
+      background: #f0f4ff;
+    }
+
+    .shop-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 55px 20px;
+      background: #f8faff;
+      border-radius: 16px;
+      color: #68738a;
+      line-height: 1.8;
+    }
+
+    .shop-state h2 {
+      color: #101a35;
+      margin-top: 0;
+    }
+
+    .shop-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #3563f5;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 1000px) {
+      .shop-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .shop-page {
+        padding: 22px 15px 45px;
+      }
+
+      .shop-hero {
+        padding: 28px 22px;
+      }
+
+      .shop-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 13px;
+      }
+
+      .shop-product-image {
+        height: 165px;
+      }
+
+      .shop-product-info {
+        padding: 12px;
+      }
+
+      .shop-product h3 {
+        font-size: 14px;
+      }
+
+      .shop-product-price {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .shop-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .shop-product-image {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shop-page">
+    <a class="shop-back" href="index.html">← Back to Home</a>
+
+    <section class="shop-hero">
+      <div class="eyebrow">NEXORA MARKETPLACE</div>
+      <h1>Find Products You'll Love.</h1>
+      <p>Explore quality products from trusted suppliers. Discover your favourites and shop smarter with Nexora.</p>
+    </section>
+
+    <section aria-label="Product catalogue">
+      <div class="shop-toolbar">
+        <input
+          id="shop-search"
+          class="shop-search"
+          type="search"
+          placeholder="Search products or categories..."
+          aria-label="Search products"
+        >
+        <span id="shop-count" class="shop-count">Loading products...</span>
+      </div>
+
+      <div id="shop-categories" class="shop-categories">
+        <button class="shop-category active" type="button" data-category="all">All Products</button>
+      </div>
+
+      <div id="shop-grid" class="shop-grid" aria-live="polite">
+        <div class="shop-state">Loading products...</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API_URL = "https://nexora-marketplace-x4x7.onrender.com";
+    const shopGrid = document.getElementById("shop-grid");
+    const shopSearch = document.getElementById("shop-search");
+    const shopCount = document.getElementById("shop-count");
+    const shopCategories = document.getElementById("shop-categories");
+
+    let allProducts = [];
+    const urlParams = new URLSearchParams(window.location.search);
+    let activeCategory = urlParams.get("category") || "all";
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    function formatPrice(price) {
+      const amount = Number(price);
+      return "৳" + (Number.isFinite(amount) ? amount : 0).toLocaleString("en-BD");
+    }
+
+    function renderCategories() {
+      const categories = [...new Set(
+        allProducts
+          .map(product => String(product.category || "General").trim())
+          .filter(Boolean)
+      )];
+
+      shopCategories.innerHTML = `
+        <button class="shop-category ${activeCategory === "all" ? "active" : ""}"
+          type="button" data-category="all">All Products</button>
+        ${categories.map(category => `
+          <button class="shop-category ${activeCategory === category ? "active" : ""}"
+            type="button" data-category="${escapeHTML(category)}">
+            ${escapeHTML(category)}
+          </button>
+        `).join("")}
+      `;
+    }
+
+    function renderProducts() {
+      const searchTerm = shopSearch.value.trim().toLowerCase();
+
+      const filteredProducts = allProducts.filter(product => {
+        const name = String(product.name || "").toLowerCase();
+        const category = String(product.category || "General").toLowerCase();
+        const supplier = String(product.shopName || "").toLowerCase();
+
+        const matchesSearch =
+          name.includes(searchTerm) ||
+          category.includes(searchTerm) ||
+          supplier.includes(searchTerm);
+
+        const matchesCategory =
+  activeCategory.toLowerCase() === "all" ||
+  String(product.category || "General").toLowerCase() ===
+    activeCategory.toLowerCase();
+    return matchesSearch && matchesCategory;
+    });
+
+      shopCount.textContent =
+        `Showing ${filteredProducts.length} of ${allProducts.length} products`;
+
+      if (!filteredProducts.length) {
+        shopGrid.innerHTML = `
+          <div class="shop-state">
+            <h2>No products found</h2>
+            <p>Try another search or choose a different category.</p>
+          </div>
+        `;
+        return;
+      }
+
+      shopGrid.innerHTML = filteredProducts.map(product => {
+        const id = encodeURIComponent(String(product.id));
+        const name = escapeHTML(product.name || "Unnamed Product");
+        const image = escapeHTML(product.image || "");
+        const category = escapeHTML(product.category || "General");
+        const supplier = escapeHTML(product.shopName || "Trusted Supplier");
+        const price = formatPrice(product.price);
+        const description = escapeHTML(product.description || "Discover this product.");
+
+        return `
+          <article class="shop-product">
+            <a href="product-details.html?id=${id}" aria-label="View ${name}">
+              <img
+                class="shop-product-image"
+                src="${image}"
+                alt="${name}"
+                loading="lazy"
+              >
+            </a>
+
+            <div class="shop-product-info">
+              <div class="shop-product-category">${category}</div>
+              <h3><a href="product-details.html?id=${id}">${name}</a></h3>
+              <div class="shop-product-price">${price}</div>
+              <div class="shop-product-supplier">Sold by ${supplier}</div>
+
+              <div class="shop-product-actions">
+                <a class="shop-btn shop-btn-secondary"
+                  href="product-details.html?id=${id}">Details</a>
+                <button class="shop-btn shop-btn-primary"
+                  type="button" data-add-id="${escapeHTML(product.id)}">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      shopGrid.querySelectorAll(".shop-product-image").forEach(image => {
+        image.addEventListener("error", () => {
+          image.style.visibility = "hidden";
+          image.parentElement.style.background = "#f0f4ff";
+          image.alt = "Product image unavailable";
+        }, { once: true });
+      });
+    }
+
+    async function loadProducts() {
+      shopGrid.innerHTML = '<div class="shop-state">Loading products from Nexora...</div>';
+
+      try {
+        const response = await fetch(`${API_URL}/api/products`);
+        if (!response.ok) throw new Error("Could not load products.");
+
+        const data = await response.json();
+        if (!data.success || !Array.isArray(data.products)) {
+          throw new Error("Invalid product data.");
+        }
+
+        allProducts = data.products;
+        renderCategories();
+        renderProducts();
+      } catch (error) {
+        console.error("Products loading error:", error);
+        shopCount.textContent = "Products unavailable";
+        shopGrid.innerHTML = `
+          <div class="shop-state">
+            <h2>We couldn't load the products.</h2>
+            <p>Please check your internet connection and try again.</p>
+            <button class="shop-btn shop-btn-primary" id="shop-retry" type="button">
+              Try Again
+            </button>
+          </div>
+        `;
+
+        document.getElementById("shop-retry")
+          .addEventListener("click", loadProducts);
+      }
+    }
+
+    shopSearch.addEventListener("input", renderProducts);
+
+    shopCategories.addEventListener("click", event => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+
+      activeCategory = button.dataset.category;
+      renderCategories();
+      renderProducts();
+    });
+
+    shopGrid.addEventListener("click", event => {
+      const button = event.target.closest("[data-add-id]");
+      if (!button) return;
+
+      const product = allProducts.find(
+        item => String(item.id) === button.dataset.addId
+      );
+
+      if (!product) return;
+
+      try {
+        const cart = JSON.parse(localStorage.getItem("nexoraCart") || "[]");
+        if (!Array.isArray(cart)) throw new Error("Invalid cart data.");
+
+        const existingItem = cart.find(
+          item => String(item.id) === String(product.id)
+        );
+
+        if (existingItem) {
+          existingItem.quantity = Number(existingItem.quantity || 0) + 1;
+        } else {
+          cart.push({
+            id: product.id,
+            name: product.name,
+            price: Number(product.price),
+            image: product.image || "",
+            icon: product.icon || "🛍️",
+            quantity: 1
+          });
+        }
+
+        localStorage.setItem("nexoraCart", JSON.stringify(cart));
+
+        button.textContent = "Added ✓";
+        window.setTimeout(() => {
+          button.textContent = "Add to Cart";
+        }, 1200);
+      } catch (error) {
+        console.error("Cart error:", error);
+        alert("Cart-এ পণ্য যোগ করা যায়নি। আবার চেষ্টা করো।");
+      }
+    });
+
+    loadProducts();
+  </script>
+</body>
+</html>
